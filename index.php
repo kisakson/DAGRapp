@@ -75,21 +75,19 @@ var SiteFilesMap = {"page-1405341905407":"https://storage.googleapis.com/wzukuse
 		include 'connect.php';
 		
 		// An insertion query. $result will be `true` if successful
-		$result = db_query("SELECT * FROM `File`");
+		$result = db_query("SELECT * FROM `DAGR`");
 		if($result === false) {
-		    // Handle failure - log the error, notify administrator, etc.
 		    echo "ERROR; Unable to connect. <br>";
 		} else {
 		     echo "We successfully inserted a row into the database <br>";
-		   
-		     db_echoresults($result, "DAGR");
+		     db_echoresults($result, 1);
 		}
 		
 		
-		/*
+		
 	 	if($_POST['submit'] && $_POST['submit'] != 0) {
   			$c = $_POST['dropdown'];
-		}*/
+		}
 				
 		?>
         </td>
