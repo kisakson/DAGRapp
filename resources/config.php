@@ -17,7 +17,7 @@ $config = array(
         "dbname" => "nanfevar_DAGR",
         "username" => "nanfevar_seed",
         "password" => "7$BLW9_!V$",
-        "host" => "localhost"
+        "host" => "localhost "
     ),
     "urls" => array(
         "homeUrl" => "http://www.baglecron.com"
@@ -41,6 +41,12 @@ $config = array(
     Creating constants for heavily used paths makes things a lot easier.
     ex. require_once(LIBRARY_PATH . "Paginator.php")
 */
+defined("BASE_PATH")
+    or define("BASE_PATH", realpath(dirname(__FILE__) . '/..'));
+
+defined("PHP_PATH")
+    or define("PHP_PATH", realpath(dirname(__FILE__) . '/../php'));
+
 defined("LIBRARY_PATH")
     or define("LIBRARY_PATH", realpath(dirname(__FILE__) . '/library'));
      
