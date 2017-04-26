@@ -13,12 +13,12 @@
 */
  
 $config = array(
-    /*"db1" => array(
-        "dbname" => "database1",
-        "username" => "dbUser",
-        "password" => "pa$$",
+    "db" => array(
+        "dbname" => "nanfevar_DAGR",
+        "username" => "nanfevar_seed",
+        "password" => "7$BLW9_!V$",
         "host" => "localhost"
-    ),*/
+    ),
     "urls" => array(
         "homeUrl" => "http://www.baglecron.com"
     )/*,

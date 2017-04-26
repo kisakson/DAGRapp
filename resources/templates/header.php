@@ -3,6 +3,9 @@
 <html lang="en">
   <head>
     <title>DAGR Saver</title>
+    <meta content="text/html; charset=utf-8"/>
+    <meta id="meta-description" name="description" content="A Multimedia Data Aggregator"/>
+    <link rel="stylesheet" type="text/css" href="/../../public_html/css/style.css"/>
   </head>
  
   <body>
