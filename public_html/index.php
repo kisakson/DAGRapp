@@ -1,9 +1,10 @@
 <?php    
     // load up your config file
-    require_once("/../../resources/config.php");
-     
-    require_once(TEMPLATES_PATH . "/header.php");
+    require_once("../config.php"); // Might need to be config.ini
+    require_once("header.php");
+    
 ?>
+
 <div id='main-container'>
   <div id='main-content'>
     
@@ -12,30 +13,36 @@
         <tr>
           <td>
             <!--- A user may create a DAGR with the components of the web page, or add these components to an open --->
+            		<form action="#" method="post">
 		        <select name=dropdown>
 		        <option value="">Select</option>
 		        <option value="insert">Insert</option>
-		        <option value="modify">Modify</option>
 		        <option value="search">Search</option>
-		        <option value="view">View</option>
+		        <option value="view">View All</option>
 		        </select>
-		
+		        <input type="submit" name="submit" value="Submit" />
+		        </form>
+			
 		        <?php
-		
-		          include 'connect.php';
-		
-		          // An insertion query. $result will be `true` if successful
-		          $result = db_query("SELECT * FROM `DAGR`");
-		          if(!$result) {
-		            echo "ERROR; Unable to connect. <br>";
-		          } else {
-		            echo "We successfully inserted a row into the database <br>";
-		          db_echoresults($result, 1);
-		          }
-		
-	 	          if($_POST['submit'] && $_POST['submit'] != 0) {
-  			        $c = $_POST['dropdown'];
-		          }
+		        if(isset($_POST['submit'])){
+				switch($_POST['dropdown']) {
+				case 'insert':	
+						
+						break; 
+				/*  				Inlcude 'modify' in 'search'
+				case 'modify':	
+						
+						break; */
+				case 'search':	
+						
+						break; 
+				case 'view':	
+						echo '<script type="text/javascript">' .
+						     'window.location = "http://bagelcron.com/view.php?q=Tester"' .
+						     '</script>';
+						break; 
+				}
+			}
 		        ?>
 
           </td>
@@ -45,6 +52,7 @@
         
   </div>
 </div>
+
 <?php
-    require_once(TEMPLATES_PATH . "/footer.php");
+    require_once("footer.php");
 ?>
