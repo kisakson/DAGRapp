@@ -45,15 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 }, false);
 
-function generateGUID() {
-	// generate GUID here
-};
-
-function generateTime() {
-	// if necessary, unless this can be done in one line
-	// we may need this function to create the time in a specific format though
-};
-
 function createDAGR(guid, name, creator) {
 	// make a call to the website to create the dagr
 	// generate a random GUID
