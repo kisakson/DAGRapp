@@ -2,26 +2,24 @@
     require_once("../resources/config.php");
     require_once(TEMPLATES_PATH . "header.php");
 ?>
-
-<div id='main-content'>
-    
-  <table border="0">
-    <tbody>
-      <tr>
-        <td>
-          <!-- A user may create a DAGR with the components of the web page, or add these components to an open -->
-          <form action="#" method="post">
-		        <select name=dropdown>
-		          <option value="select">Select</option>
-		          <option value="insert">Insert</option>
-		          <option value="search">Search</option>
-		          <option value="view">View All</option>
-		        </select>
-		        <input type="submit" name="submit" value="Submit" />
-		      </form>
+   
+<table border="0">
+   <tbody>
+    <tr>
+      <td>
+      <!-- A user may create a DAGR with the components of the web page, or add these components to an open -->
+        <form action="#" method="post">
+		      <select name=dropdown>
+		        <option value="select">Select</option>
+		        <option value="insert">Insert</option>
+		        <option value="search">Search</option>
+		        <option value="view">View All</option>
+		      </select>
+		      <input type="submit" name="submit" value="Submit" />
+		    </form>
 			
-		      <?php
-		        if(isset($_POST['submit'])){
+		    <?php
+		      if(isset($_POST['submit'])){
 				      switch($_POST['dropdown']) {
 				case 'insert':	
 						
@@ -42,12 +40,11 @@
 			}
 		        ?>
 
-        </td>
-      </tr>
-    </tbody>
-  </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
         
-</div>
 
 <?php
     require_once(TEMPLATES_PATH . "footer.php");

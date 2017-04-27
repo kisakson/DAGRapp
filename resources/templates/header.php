@@ -57,5 +57,5 @@
         </div></li>
       </ul>
     </div>
-    <div class='container middle'>
+    <div class='container main-content'>
     

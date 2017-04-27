@@ -17,7 +17,7 @@ $config = array(
         "dbname" => "nanfevar_DAGR",
         "username" => "nanfevar_seed",
         "password" => "7$BLW9_!V$",
-        "host" => "localhost "
+        "host" => "localhost"
     ),
     "urls" => array(
         "homeUrl" => "http://www.baglecron.com"
