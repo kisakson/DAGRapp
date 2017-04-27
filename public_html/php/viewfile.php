@@ -7,14 +7,14 @@
 	include 'connect.php';
 
 	$db = db_connect();
-	$name = $_GET['q'];
-	$stmt = $db->prepare("SELECT * FROM `DAGR` WHERE `Name` LIKE ?");
+	$stmt = $db->prepare("SELECT * FROM `FILE`");
 	
-	@$stmt->bind_param('s', $name)
-	OR die('Could not connect. .. . .. .');
+	//@$stmt->bind_param('s', $name)
+	//OR die('Could not connect. .. . .. .');
 	
 	$stmt->execute();
-	$stmt->bind_result($col1, $col2, $col3, $col4, $col5);
+	$stmt->bind_result($col1, $col2, $col3, $col4, $col5, $col6, $col7, $col8);
+  // TODO add rest of columns lol
 
 	print '<table border="5">';
 	print '<tr>';
@@ -24,6 +24,7 @@
 	print '<td> Time_created </td>';
 	print '<td> Parent_id </td>';
 	print '</tr>';
+  // TODO update this table
 
 	//fetch records
 	while($stmt->fetch()) {
@@ -34,6 +35,7 @@
 	    print '<td>'.$col4.'</td>';
 	    print '<td>'.$col5.'</td>';
 	    print '</tr>';
+      // TODO update this printout
 
 	}   
 	print '</table>';

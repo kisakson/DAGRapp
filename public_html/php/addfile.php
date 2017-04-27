@@ -7,9 +7,8 @@
   <tbody>
     <tr>
       <td>
-        <h2>Add a DAGR</h2>
-        <p>This page adds a new DAGR, a standalone folder. This DAGR can be created alone or within another existing DAGR.</p>
-        <p>To save a file in the database, select the option above to add a new file.</p>
+        <h2>Add a File</h2>
+        <p>This page adds a new File within a DAGR. This DAGR can be created alone or within another existing DAGR.</p>
         <!-- A user may create a DAGR with the components of the web page, or add these components to an open -->
         <!--
           <form action="#" method="post">
@@ -21,13 +20,13 @@
 	        </select>
 	        <input type="submit" name="submit" value="Submit" />
 		      </form> -->
-        <p>... form to add a DAGR will be below ...</p>
+        <p>... form to add a File will be below ...</p>
 
       </td>
     </tr>
   </tbody>
 </table>
-        
+
 <?php
     require_once(TEMPLATES_PATH . "footer.php");
 ?>

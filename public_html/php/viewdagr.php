@@ -7,11 +7,10 @@
 	include 'connect.php';
 
 	$db = db_connect();
-	$name = $_GET['q'];
-	$stmt = $db->prepare("SELECT * FROM `DAGR` WHERE `Name` LIKE ?");
+	$stmt = $db->prepare("SELECT * FROM `DAGR`");
 	
-	@$stmt->bind_param('s', $name)
-	OR die('Could not connect. .. . .. .');
+	//@$stmt->bind_param('s', $name)
+	//OR die('Could not connect. .. . .. .');
 	
 	$stmt->execute();
 	$stmt->bind_result($col1, $col2, $col3, $col4, $col5);
