@@ -1,12 +1,15 @@
-<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> <!-- TODO check this action line -->
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="dagr-search-form" onsubmit="searchDagr()"> <!-- TODO check this action line -->
 	DAGR Name: <input type="text" name="name"><br> <!-- TODO still in progress.. just creating the form structure -->
   Creator Name: <input type="text" name="creator"><br>
   Contains Category: <input type="text" name="creator"></br>
 	<input type="submit" name="submit" value="Submit" />
 </form>
 
+<div id='results'>
+</div>
+
 <?php
-	include 'connect.php';
+	include '../connect.php';
 
 	$db = db_connect();
 	$name = $_GET['q'];
@@ -29,7 +32,7 @@
 
 	//fetch records
 	while($stmt->fetch()) {
-  	    print '<tr>';
+  	  print '<tr>';
 	    print '<td>'.$col1.'</td>';
 	    print '<td>'.$col2.'</td>';
 	    print '<td>'.$col3.'</td>';
