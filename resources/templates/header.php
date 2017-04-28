@@ -17,8 +17,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!-- personal styling and js below -->
-    <script src="<?php JS_PATH . 'header.js' ?>"></script>
-    <link rel="stylesheet" type="text/css" href="<?php CSS_PATH . 'style.css' ?>"/>
+    <script src="/js/header.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
   </head>
  
   <body>

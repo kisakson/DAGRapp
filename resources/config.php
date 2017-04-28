@@ -24,10 +24,8 @@ $config = array(
     )/*,
     "paths" => array(
         "resources" => "/",
-        "images" => array(
-            "content" => $_SERVER["DOCUMENT_ROOT"] . "/images/content",
-            "layout" => $_SERVER["DOCUMENT_ROOT"] . "/images/layout"
-        )
+        "js" => $_SERVER["DOCUMENT_ROOT"] . "/js/",
+        "css" => $_SERVER["DOCUMENT_ROOT"] . "/css/"
     )*/
 );
  
@@ -42,22 +40,22 @@ $config = array(
     ex. require_once(LIBRARY_PATH . "Paginator.php")
 */
 defined("BASE_PATH")
-    or define("BASE_PATH", realpath(dirname(__FILE__) . '/..'));
+    or define("BASE_PATH", realpath(dirname(__FILE__) . "/../"));
 
 defined("CSS_PATH")
-    or define("CSS_PATH", realpath(dirname(__FILE__) . '/../css'));
+    or define("CSS_PATH", realpath(dirname(__FILE__) . "/../public_html/css/"));
 
 defined("JS_PATH")
-    or define("JS_PATH", realpath(dirname(__FILE__) . '/../js'));
+    or define("JS_PATH", realpath(dirname(__FILE__) . "/../public_html/js/"));
 
 defined("PHP_PATH")
-    or define("PHP_PATH", realpath(dirname(__FILE__) . '/../php'));
+    or define("PHP_PATH", realpath(dirname(__FILE__) . "/../public_html/php/"));
 
 defined("LIBRARY_PATH")
-    or define("LIBRARY_PATH", realpath(dirname(__FILE__) . '/library'));
+    or define("LIBRARY_PATH", realpath(dirname(__FILE__) . "/library/"));
      
 defined("TEMPLATES_PATH")
-    or define("TEMPLATES_PATH", realpath(dirname(__FILE__) . '/templates'));
+    or define("TEMPLATES_PATH", realpath(dirname(__FILE__) . "/templates/"));
  
 /*
     Error reporting.
