@@ -3,6 +3,13 @@
     require_once(TEMPLATES_PATH . "header.php");
 ?>
 
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> <!-- TODO check this action line -->
+	DAGR Name: <input type="text" name="name"><br> <!-- TODO still in progress.. just creating the form structure -->
+  Creator Name: <input type="text" name="creator"><br>
+  Contains Category: <input type="text" name="creator"></br>
+	<input type="submit" name="submit" value="Submit" />
+</form>
+
 <?php
 	include 'connect.php';
 

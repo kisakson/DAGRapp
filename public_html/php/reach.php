@@ -7,8 +7,7 @@
 	include 'connect.php';
 
 	$db = db_connect();
-	$name = $_GET['q'];
-	$stmt = $db->prepare("SELECT * FROM `DAGR` WHERE `Name` LIKE ?");
+	/*$stmt = $db->prepare("SELECT * FROM `DAGR` WHERE `Name` LIKE ?");
 	
 	@$stmt->bind_param('s', $name)
 	OR die('Could not connect. .. . .. .');
@@ -25,7 +24,7 @@
 	print '<td> Parent_id </td>';
 	print '</tr>';
 
-	//fetch records
+	fetch records
 	while($stmt->fetch()) {
   	    print '<tr>';
 	    print '<td>'.$col1.'</td>';
@@ -36,10 +35,9 @@
 	    print '</tr>';
 
 	}   
-	print '</table>';
+	print '</table>';*/
 	
-	/* close statement */
-    	$stmt->close();
+  $stmt->close();
 ?>
 
 <?php
