@@ -3,6 +3,12 @@
 <?php    
     require_once("../resources/config.php");
 ?>
+
+<script type="text/javascript">
+function changePage(id) {
+  $('#main-content').load(id + '.php');
+}
+</script>
  
 <html lang="en">
   <head>
@@ -26,17 +32,17 @@
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Add
           <span class="caret"></span></button>
           <ul class="dropdown-menu">
-            <li><a href="<?php PHP_PATH . "adddagr.php" ?>">Add DAGR</a></li>
-            <li><a href="#">Add File (with DAGR)</a></li>
-            <li><a href="#">Add DAGR Category</a></li>
+            <li><a href="<?php PHP_PATH . "adddagr.php" ?>">Add DAGR</a></li> <!-- TODO see which page change is better! -->
+            <li><a href="#" onClick='changePage("addfile")'>Add File (with DAGR)</a></li>
+            <li><a href="#" onClick='changePage("addcat")'>Add DAGR Category</a></li>
           </ul>
         </div></li>
         <li><div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">View All
           <span class="caret"></span></button>
           <ul class="dropdown-menu">
-            <li><a href="#">View All DAGRs</a></li>
-            <li><a href="#">View All Files</a></li>
+            <li><a href="#" onClick='changePage("viewdagr")'>View All DAGRs</a></li>
+            <li><a href="#" onClick='changePage("viewfile")'>View All Files</a></li>
           </ul>
         </div></li>
         <li><div class="dropdown">
@@ -57,5 +63,5 @@
         </div></li>
       </ul>
     </div>
-    <div class='container main-content'>
+    <div class='container main-content' id='main-content'>
     
