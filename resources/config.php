@@ -44,6 +44,12 @@ $config = array(
 defined("BASE_PATH")
     or define("BASE_PATH", realpath(dirname(__FILE__) . '/..'));
 
+defined("CSS_PATH")
+    or define("CSS_PATH", realpath(dirname(__FILE__) . '/../css'));
+
+defined("JS_PATH")
+    or define("JS_PATH", realpath(dirname(__FILE__) . '/../js'));
+
 defined("PHP_PATH")
     or define("PHP_PATH", realpath(dirname(__FILE__) . '/../php'));
 

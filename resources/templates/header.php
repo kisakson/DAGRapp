@@ -3,30 +3,27 @@
 <?php    
     require_once("../resources/config.php");
 ?>
-
-<script type="text/javascript">
-function changePage(id) {
-  $('#main-content').load(id + '.php');
-}
-</script>
  
 <html lang="en">
   <head>
     <title>DAGR Saver</title>
     <meta content="text/html; charset=utf-8"/>
     <meta id="meta-description" name="description" content="A Multimedia Data Aggregator"/>
+    <!-- jQuery import -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <!-- bootstrap styling below -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <!-- personal styling below -->
-    <link rel="stylesheet" type="text/css" href="/../../public_html/css/style.css"/>
+    <!-- personal styling and js below -->
+    <script src="<?php JS_PATH . 'header.js' ?>"></script>
+    <link rel="stylesheet" type="text/css" href="<?php CSS_PATH . 'style.css' ?>"/>
   </head>
  
   <body>
     <div class='container header'>
-      <h1><a href="<?php BASE_PATH . "index.php" ?>">DAGR Saver</a></h1>
+      <h1><a href="<?php BASE_PATH . 'index.php' ?>">DAGR Saver</a></h1>
       <ul class='list-inline'>
         <li><div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Add
