@@ -23,13 +23,13 @@
  
   <body>
     <div class='container header'>
-      <h1><a href="<?php BASE_PATH . 'index.php' ?>">DAGR Saver</a></h1>
+      <h1><a href="#" onClick='changePage("index")'>DAGR Saver</a></h1>
       <ul class='list-inline'>
         <li><div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Add
           <span class="caret"></span></button>
           <ul class="dropdown-menu">
-            <li><a href="<?php PHP_PATH . "adddagr.php" ?>">Add DAGR</a></li> <!-- TODO see which page change is better! -->
+            <li><a href="#" onClick='changePage("adddagr")'>Add DAGR</a></li> <!-- TODO see which page change is better! -->
             <li><a href="#" onClick='changePage("addfile")'>Add File (with DAGR)</a></li>
             <li><a href="#" onClick='changePage("addcat")'>Add DAGR Category</a></li>
           </ul>
@@ -46,16 +46,16 @@
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Search/Modify/Delete
           <span class="caret"></span></button>
           <ul class="dropdown-menu">
-            <li><a href="#">Search/Modify/Delete DAGRs</a></li>
-            <li><a href="#">Search/Modify/Delete Files</a></li>
+            <li><a href="#" onClick='changePage("searchdagr")'>Search/Modify/Delete DAGRs</a></li>
+            <li><a href="#" onClick='changePage("searchfile")'>Search/Modify/Delete Files</a></li>
           </ul>
         </div></li>
         <li><div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Database Reports
           <span class="caret"></span></button>
           <ul class="dropdown-menu">
-            <li><a href="#">Orphan/Sterile DAGRs</a></li>
-            <li><a href="#">DAGR Reach Query</a></li>
+            <li><a href="#" onClick='changePage("orphansterile")'>Orphan/Sterile DAGRs</a></li>
+            <li><a href="#" onClick='changePage("reach")'>DAGR Reach Query</a></li>
           </ul>
         </div></li>
       </ul>

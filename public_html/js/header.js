@@ -1,3 +1,5 @@
 function changePage(id) {
-  $('#main-content').load(id + '.php');
+  if (id !== "index") {
+    $('#main-content').load('php/' + id + '.php');
+  } else $('#main-content').load('index.php');
 }
