@@ -24,7 +24,7 @@
           	  $stmt->execute();
 	            $stmt->bind_result($col1, $col2, $col3, $col4, $col5);
               while($stmt->fetch()) {
-                print '<option value="'.$col1.'">'.$col2.' - id: '.$col1.'</option>';
+                echo '<option value="', $col1, '">', $col2, ' - id: ', $col1, '</option>';
               }
             ?>
           </select>
@@ -41,11 +41,9 @@
 
 	          $stmt = $db->prepare("INSERT INTO 'DAGR' ('Name', 'Creator', 'Parent_id') VALUES ($name, $creator, $parent)");
             if ($stmt->execute()) {
-              print '<br>';
-              print 'DAGR insertion was successful.';
+              echo '<br>DAGR insertion was successful.';
             } else {
-              print '<br>';
-              print 'DAGR insertion failed.';
+              echo '<br>DAGR insertion failed.';
             }
           }
         ?>
