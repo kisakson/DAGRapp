@@ -23,7 +23,7 @@
  
   <body>
     <div class='container header'>
-      <h1><a href="#" onClick='changePage("index")'>DAGR Saver</a></h1>
+      <h1><a href="#" onClick='changePage("main")'>DAGR Saver</a></h1>
       <ul class='list-inline'>
         <li><div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Add

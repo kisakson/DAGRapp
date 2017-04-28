@@ -1,8 +1,3 @@
-<?php    
-    require_once("../../resources/config.php");
-    require_once(TEMPLATES_PATH . "header.php");
-?>
-
 <table border="0">
   <tbody>
     <tr>
@@ -52,7 +47,3 @@
     </tr>
   </tbody>
 </table>
-        
-<?php
-    require_once(TEMPLATES_PATH . "footer.php");
-?>
