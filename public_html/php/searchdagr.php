@@ -30,7 +30,7 @@
 		$output = $output . '<tr><td>'.$col1.'</td><td>'.$col2.'</td><td>'.$col3.'</td><td>'.$col4.'</td><td>'.$col5.'</td></tr>';
 	}
 	$output = $output . '</table>';
-	console.log($output);
+	echo $output;
 
 	/*print '<table border="5">';
 	print '<tr>';
