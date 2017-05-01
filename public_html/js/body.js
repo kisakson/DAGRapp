@@ -1,18 +1,17 @@
 $('#dagr-search-button').on('click', function(e) {
   e.preventDefault();
-  var str = 'Search query: ' + $('form').serialize();
-  $('#results' ).text( str );
     $.ajax({
-        url : '/php/searchdagr.php',
+        url : '/php/responses/search.php',
         type: "GET",
-        data: $(this).serialize(),
-        success: function (data) {
-            console.log(data);
-            $("#results").html(data);
+        data: $('#dagr-search-form').serialize(),
+        success: function (result) {
+            console.log(result);
+            $("#results").html(result);
         },
         error: function (jXHR, textStatus, errorThrown) {
             alert(errorThrown);
         }
     });
+  $("#results").html('<p>Results are loading...</p>');
 });
 
