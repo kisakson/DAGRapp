@@ -21,9 +21,9 @@
 			. '<td>Modify</td><td>Delete</td></tr>';
 		$numrow = 1;
 	  while($stmt->fetch()) {
-		  $output = $output . '<tr><td>' . $col1 . '</td><td>' . htmlspecialchars($col2) . '</td><td>'
+		  $output = $output . '<tr id=row-' . $numrow . '><td>' . $col1 . '</td><td>' . htmlspecialchars($col2) . '</td><td>'
 				. htmlspecialchars($col3) . '</td><td>' . $col4 . '</td><td>' . (($col5) ? ($col5) : ('No parent')) . '</td>'
-				. '<td><button type="button" id=row-' . $numrow . '>Modify</button></td><td>'
+				. '<td><button type="button" id=mod-' . $numrow . ' onclick=dagrmodify("mod-' . $numrow . '")>Modify</button></td><td>'
 				. '<button type="button" id=' . $col1 . ' onclick=dagrdelete("' . $col1 . '")>Delete</button></td>' . '</tr>';
 				$numrow = $numrow + 1;
 	  }
