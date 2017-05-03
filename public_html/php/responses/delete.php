@@ -2,10 +2,10 @@
 	include '../../connect.php';
 
 	$db = db_connect();
-  $object = $_GET['object'];
+  $object = $_POST['object'];
 
   if ($object === 'dagr') {
-    $guid = $_GET['guid'];
+    $guid = $_POST['guid'];
 	  $stmt = $db->prepare("DELETE FROM `DAGR` WHERE `GUID` = ?");
 	
 	  @$stmt->bind_param('s', $guid)
@@ -13,7 +13,7 @@
 	
 	  $stmt->execute();
 
-    if (mysql_affected_rows() > 0) {
+    if (mysqli_stmt_affected_rows($stmt) > 0) {
       echo "Success";
     } else {
       echo "Error";
@@ -22,7 +22,7 @@
     $stmt->close();
   
   } else if ($object === 'file') {
-    $guid = $_GET['guid'];
+    $guid = $_POST['guid'];
 	  $stmt = $db->prepare("DELETE FROM `File` WHERE `GUID` = ?");
 	
 	  @$stmt->bind_param('s', $guid)

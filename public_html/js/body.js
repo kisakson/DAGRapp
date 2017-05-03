@@ -22,13 +22,12 @@ function dagrdelete(input) {
   } else if ($(hashinput).text() == "Confirm deletion") {
     $.ajax({
         url : '/php/responses/delete.php',
-        type: "DELETE",
-        data: JSON.stringify({
-          'object': 'dagr',
-          'guid': input
-        }),
+        type: "POST",
+        data: {
+          object: 'dagr',
+          guid: input
+        },
         success: function (result) {
-            console.log(result);
             $(hashinput).text(result);
             if (result == "Success") {
               $(hashinput).css("color", "green");
