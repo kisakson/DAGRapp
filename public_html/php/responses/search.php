@@ -19,13 +19,17 @@
 
 	  $output = '<table border="5"><tr><td>Guid</td><td>Name</td><td>Creator</td><td>Time_created</td><td>Parent_id</td>'
 			. '<td>Modify</td><td>Delete</td></tr>';
+		$numrow = 1;
 	  while($stmt->fetch()) {
-		  $output = $output . '<tr><td>' . $col1 . '</td><td>' . htmlspecialchars($col2) . '</td><td>' . htmlspecialchars($col3)
-				. '</td><td>' . $col4 . '</td><td>' . (($col5) ? ($col5) : ('No parent')) . '</td>'
-				. '<td><button type="button">Modify</button></td><td><button type="button">Delete</button></td>' . '</tr>';
+		  $output = $output . '<tr><td>' . $col1 . '</td><td>' . htmlspecialchars($col2) . '</td><td>'
+				. htmlspecialchars($col3) . '</td><td>' . $col4 . '</td><td>' . (($col5) ? ($col5) : ('No parent')) . '</td>'
+				. '<td><button type="button" id=row-' . $numrow . '>Modify</button></td><td>'
+				. '<button type="button" id=' . $col1 . ' onclick=dagrdelete("' . $col1 . '")>Delete</button></td>' . '</tr>';
+				$numrow = $numrow + 1;
 	  }
 	  $output = $output . '</table>';
 	  echo $output;
+		echo '<script src="/js/body.js"></script>';
     $stmt->close();
   
   } else if ($object === 'file') {
