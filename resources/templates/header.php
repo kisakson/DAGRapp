@@ -47,7 +47,8 @@
           <span class="caret"></span></button>
           <ul class="dropdown-menu">
             <li><a href="#" onClick='changePage("searchdagr")'>Search/Modify/Delete DAGRs</a></li>
-            <li><a href="#" onClick='changePage("searchfile")'>Search/Modify/Delete Files</a></li>
+            <li><a href="#" onClick='changePage("reachdagr")'>DAGR Reach Query</a></li>
+            <li><a href="#" onClick='changePage("timerange")'>Time-Range Report</a></li>
           </ul>
         </div></li>
         <li><div class="dropdown">
