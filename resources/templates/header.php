@@ -18,6 +18,7 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!-- personal styling and js below -->
     <script src="/js/header.js"></script>
+    <script src="/js/body.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/style.css"/>
   </head>
  
