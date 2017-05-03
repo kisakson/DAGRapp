@@ -1,38 +1,17 @@
-<?php
-	include 'connect.php';
+<form method="get" action="<?php echo htmlspecialchars('php/responses/search.php');?>" id="file-search-form">
+	File Name: <input type="text" name="name"><br>
+	Creator Name: <input type="text" name="creator"><br>
+	Local or Online: <select type="text" name="localonline">
+		<option value="Either">Either</option>
+		<option value="Local">Local</option>
+		<option value="Online">Online</option>
+	</select><br>
+	URL: <input type="text" name="url"><br>
+	File Type: <input type="text" name="type"><br>
+	<input type="hidden" name="object" value="file">
+	<input type="submit" name="submit" value="Submit" id='file-search-button'/>
+</form>
 
-	$db = db_connect();
-	$name = $_GET['q'];
-	$stmt = $db->prepare("SELECT * FROM `DAGR` WHERE `Name` LIKE ?");
-	
-	@$stmt->bind_param('s', $name)
-	OR die('Could not connect. .. . .. .');
-	
-	$stmt->execute();
-	$stmt->bind_result($col1, $col2, $col3, $col4, $col5);
+<script src="/js/search.js"></script>
 
-	print '<table border="5">';
-	print '<tr>';
-	print '<td> GUID </td>';
-	print '<td> Name </td>';
-	print '<td> Creator </td>';
-	print '<td> Time_created </td>';
-	print '<td> Parent_id </td>';
-	print '</tr>';
-
-	//fetch records
-	while($stmt->fetch()) {
-  	    print '<tr>';
-	    print '<td>'.$col1.'</td>';
-	    print '<td>'.$col2.'</td>';
-	    print '<td>'.$col3.'</td>';
-	    print '<td>'.$col4.'</td>';
-	    print '<td>'.$col5.'</td>';
-	    print '</tr>';
-
-	}   
-	print '</table>';
-	
-	/* close statement */
-    	$stmt->close();
-?>
+<div id='results'></div>

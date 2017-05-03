@@ -6,6 +6,6 @@
 	<input type="submit" name="submit" value="Submit" id='dagr-search-button'/>
 </form>
 
-<script src="/js/body.js"></script>
+<script src="/js/search.js"></script>
 
 <div id='results'></div>
