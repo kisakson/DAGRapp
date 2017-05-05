@@ -14,7 +14,7 @@
  
 $config = array(
     "db" => array(
-        "dbname" => "nanfevar_DAGR",
+        "dbname" => "nanfevar_MMDAGR",
         "username" => "nanfevar_seed",
         "password" => "7$BLW9_!V$",
         "host" => "localhost"
