@@ -21,6 +21,6 @@ function dagrdelete(input) {
             alert(errorThrown);
         }
     });
-    $(hashinput).html("Deleting...");
+    $(hashinput).html("<p>Deleting...</p>");
   }
 }
