@@ -69,7 +69,7 @@
           . ( ($col7 >= 1000000000) ? ($col7/1000000000 . ' GB') : (($col7 >= 1000000) ? ($col7/1000000 . ' MB') : (($col7 >= 1000) ? ($col7/1000 . ' KB') : ($col7 . ' B'))) )
           . '</td><td>' . $col8 . '</td><td>' . (($col9) ? ($col9) : ('No parent')) . '</td>'
 					. '<td><button type="button" id=row-' . $numrow . '>Modify</button></td>'
-					. '<td><button type="button" id=' . $col1 . ' onclick=dagrdelete("' . $col1 . '")>Delete</button></td></tr>';
+					. '<td><button type="button" id=' . $col1 . ' onclick=filedelete("' . $col1 . '")>Delete</button></td></tr>';
 	  }   
 	  echo $output;
 		echo '<script src="/js/modify.js"></script>';
