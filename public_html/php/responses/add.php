@@ -20,7 +20,6 @@
       
       @$stmt->bind_param('ss', $name, $creator)
 	    OR die('Could not connect. .. . .. .');
-	
     }
 
     if ($stmt->execute()) {
@@ -32,47 +31,65 @@
     $stmt->close();
   
   } else if ($object === 'file') {
-    $name = '%' . $_POST['name'] . '%';
-	  $creator = '%' . $_POST['creator'] . '%';
-    // TODO......
-		$localonline = $_GET['localonline'];
-		$url = '%' . $_GET['url'] . '%';
-		$type = '%' . $_GET['type'] . '%';
-		$stmt = null;
-		if ($localonline !== "Local" && $localonline !== "Online") {
-			$stmt = $db->prepare("SELECT * FROM `File` WHERE `Name` LIKE ? AND `Creator` LIKE ?
-					 AND `URL` LIKE ? AND `File_type` LIKE ?");
-			@$stmt->bind_param('ssss', $name, $creator, $url, $type)
-	  	OR die('Could not connect. .. . .. .');
-		} else {
-			if ($localonline == "Local") {
-				$localonline = 1;
-			} else $localonline = 0;
-			$stmt = $db->prepare("SELECT * FROM `File` WHERE `Name` LIKE ? AND `Creator` LIKE ? AND `Local_or_online` = ?
-					 AND `URL` LIKE ? AND `File_type` LIKE ?");
-			@$stmt->bind_param('ssiss', $name, $creator, $localonline, $url, $type)
-	  	OR die('Could not connect. .. . .. .');
+		$url = $_POST['url'];
+		$pathvars = pathinfo($url);
+
+		$stmtgetguid = $db->prepare("SELECT `GUID` FROM `File` WHERE `URL` = ?");
+		@$stmtgetguid->bind_param('s', $url)
+		OR die('Could not connect. .. . .. .');
+		$stmtgetguid->execute();
+		$stmtgetguid->bind_result($col1);
+  	while($stmtgetguid->fetch()) {
+  	  exit("File is already uploaded in the database.<br>");
+  	}
+
+		$stmtgetguid->close();
+
+		$creator = $_POST['creator'];
+		$parent = $_POST['parent'];
+
+		if ($pathvars['extension'] == "html" || $pathvars['extension'] == "com" || $pathvars['extension'] == "net" || $pathvars['extension'] == "org") {
+			if (empty($_POST['name'])) {
+				$name = "";
+			} else $name = $_POST['name'];
+
+			$post = [
+    		'name' => $name, 'creator' => $creator, 'url' => $url, 'parent' => $parent
+			];
+
+			$ch = curl_init('http://www.bagelcron.com/php/responses/parsehtml.php');
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+
+			$response = curl_exec($ch);
+			curl_close($ch);
+			print_r($response);
+
+			exit(0);
 		}
 
+		$name = "";
+		if (empty($_POST['name'])) {
+			$name = $pathvars['basename'];
+		} else $name = $_POST['name'];
+		$localoronline = -1;
+		if ($$_POST['localonline'] == "Local") { $localoronline = 1; } else { $localoronline = 0; }
+		$type = $pathvars['extension'];
+
+		$dom = new DOMDocument();
+  	libxml_use_internal_errors(true);
+  	$dom->loadHTMLFile($url);
+  	$size = strlen($dom->saveHTML());
+
+		$stmt = $db->prepare("INSERT INTO `File` (`Name`, `Creator`, `Local_or_online`, `URL`, `Size`, `File_type`, `Parent_id`)
+         VALUES (?, ?, ?, ?, ?, ?, ?);");
+		@$stmt->bind_param('ssisiss', $name, $creator, $localoronline, $url, $size, $type, $parent)
+	  	OR die('Could not connect. .. . .. .');
+
     $stmt->execute();
-	  $stmt->bind_result($col1, $col2, $col3, $col4, $col5, $col6, $col7, $col8, $col9);
 
-    $output = '<table border="5"><tr><td>Guid</td><td>Name</td><td>Creator</td><td>Time_created</td>'
-      . '<td>Location</td><td>URL</td><td>File Size</td><td>File Extension</td><td>Parent_id</td>'
-			. '<td>Modify</td><td>Delete</td></tr>';
+		echo "Insertion was successful!<br>";
 
-	  while($stmt->fetch()) {
-      $output = $output . '<tr><td>' . $col1 . '</td><td>' . htmlspecialchars($col2) . '</td><td>' . htmlspecialchars($col3)
-          . '</td><td>' . $col4 . '</td><td>' . (($col5) ? ('Local') : ('Online')) . '</td><td><a href="'
-          . htmlspecialchars($col6) . '">' . $col6 . '</td><td>'
-          . ( ($col7 >= 1000000000) ? ($col7/1000000000 . ' GB') : (($col7 >= 1000000) ? ($col7/1000000 . ' MB') : (($col7 >= 1000) ? ($col7/1000 . ' KB') : ($col7 . ' B'))) )
-          . '</td><td>' . $col8 . '</td><td>' . (($col9) ? ($col9) : ('No parent')) . '</td>'
-					. '<td><button type="button" id=row-' . $numrow . '>Modify</button></td>'
-					. '<td><button type="button" id=' . $col1 . ' onclick=dagrdelete("' . $col1 . '")>Delete</button></td></tr>';
-	  }   
-	  echo $output;
-		echo '<script src="/js/modify.js"></script>';
-		echo '<script src="/js/delete.js"></script>';
     $stmt->close();
   }
 ?>

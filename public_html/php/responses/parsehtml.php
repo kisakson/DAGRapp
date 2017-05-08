@@ -2,6 +2,7 @@
   include '../../connect.php';
 
 	$db = db_connect();
+  $name = $_POST['name'];
   $creator = $_POST['creator'];
   $url = $_POST['url'];
   $parent = $_POST['parent'];
@@ -21,7 +22,9 @@
   $dom->loadHTMLFile($url);
   $regex = '%^(?:[a-z]+:)?//%';
 
-  $title = $dom->getElementsByTagName('title')->item(0)->textContent; // Name is Title of doc
+  if ($name == "") {
+    $name = $dom->getElementsByTagName('title')->item(0)->textContent; // Name is Title of doc
+  }
 
   $file = $dom->saveHTML();
   $size = strlen($file);
@@ -31,7 +34,7 @@
   $stmtfile = $db->prepare("INSERT INTO `File` (`Name`, `Creator`, `Local_or_online`, `URL`, `Size`, `File_type`, `Parent_id`)
          VALUES (?, ?, 0, ?, ?, 'html', ?);");
       
-  @$stmtfile->bind_param('sssis', $title, $creator, $url, $size, $parent)
+  @$stmtfile->bind_param('sssis', $name, $creator, $url, $size, $parent)
 	OR die('Could not connect. .. . .. .');
   // Insert base HTML file
   if ($stmtfile->execute()) {
@@ -100,7 +103,6 @@
 
       // Insert parent-child connection
       $stmtf2f->execute();
-
     }
   }
 
