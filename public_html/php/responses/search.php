@@ -64,9 +64,13 @@
 
 	  while($stmt->fetch()) {
       $output = $output . '<tr><td>' . $col1 . '</td><td>' . htmlspecialchars($col2) . '</td><td>' . htmlspecialchars($col3)
-          . '</td><td>' . $col4 . '</td><td>' . (($col5) ? ('Local') : ('Online')) . '</td><td><a href="'
-          . htmlspecialchars($col6) . '">' . $col6 . '</td><td>'
-          . ( ($col7 >= 1000000000) ? ($col7/1000000000 . ' GB') : (($col7 >= 1000000) ? ($col7/1000000 . ' MB') : (($col7 >= 1000) ? ($col7/1000 . ' KB') : ($col7 . ' B'))) )
+          . '</td><td>' . $col4 . '</td><td>' . (($col5) ? ('Local') : ('Online')) . '</td>';
+			if ($col5 == 1) {
+				$output = $output . '<td>' . $col6 . '</td>';
+			} else {
+				$output = $output . '<td><a href="' . htmlspecialchars($col6) . '">' . $col6 . '</td>';
+			}
+			$output = $output . '<td>' . ( ($col7 >= 1000000000) ? ($col7/1000000000 . ' GB') : (($col7 >= 1000000) ? ($col7/1000000 . ' MB') : (($col7 >= 1000) ? ($col7/1000 . ' KB') : ($col7 . ' B'))) )
           . '</td><td>' . $col8 . '</td><td>' . (($col9) ? ($col9) : ('No parent')) . '</td>'
 					. '<td><button type="button" id=row-' . $numrow . '>Modify</button></td>'
 					. '<td><button type="button" id=' . $col1 . ' onclick=filedelete("' . $col1 . '")>Delete</button></td></tr>';
