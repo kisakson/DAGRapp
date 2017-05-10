@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-  var addDAGRButton = document.getElementById('addDAGR');
-  var homepageButton = document.getElemenyById('homepage');
+  var addPageButton = document.getElementById('addPage');
+  var homepageButton = document.getElementById('homepage');
 
   // I am following this tutorial: https://www.sitepoint.com/create-chrome-extension-10-minutes-flat/
 
-  addDAGRButton.addEventListener('click', function() {
+  addPageButton.addEventListener('click', function() {
     chrome.tabs.getSelected(null, function(tab) {
 			var form = document.createElement('form');
 			//form.action = TODO!!!! something like 'http://gtmetrix.com/analyze.html?bm';
@@ -39,9 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
   }, false);
 
   homepageButton.addEventListener('click', function() {
-    var homepage = "http://www.baglecron.com";
+    var homepage = "http://www.bagelcron.com/index.php";
     chrome.tabs.create({ url: homepage });
   }, false);
+	
 
 }, false);
 
