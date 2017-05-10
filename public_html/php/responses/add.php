@@ -94,31 +94,57 @@
 
 			$stmt->close();
 		} else { // local file
-			$name = "";
-			if (empty($_POST['name'])) {
-				$name = $_FILES["upload"]["name"][0];
-			} else $name = $_POST['name'];
-
-			$url = $_FILES["upload"]["name"][0];
-			$pathvars = pathinfo($url);
-			$type = $pathvars['extension'];
-			$size = $_FILES["upload"]["size"][0];
-
-			$uploadOk = 1;
-			if(isset($_POST["submit"])) {
-				// idk
-			}
-
+			$numfile = 1;
+			$filestoolarge = 0;
 			$stmt = $db->prepare("INSERT INTO `File` (`Name`, `Creator`, `Local_or_online`, `URL`, `Size`, `File_type`, `Parent_id`)
 					VALUES (?, ?, ?, ?, ?, ?, ?);");
 			@$stmt->bind_param('ssisiss', $name, $creator, $localoronline, $url, $size, $type, $parent)
 				OR die('Could not connect. .. . .. .');
 
-			$stmt->execute();
+			while ($numfile <= sizeof($_FILES["upload"]["name"])) {
+				$name = "";
+				if (empty($_POST['name'])) {
+					$name = $_FILES["upload"]["name"][$numfile - 1];
+				} else if (sizeof($_FILES["upload"]["name"]) == 1) {
+					$name = $_POST['name'];
+				} else $name = $_POST['name'] . " (" . $numfile . ")";
 
-			echo "Insertion was successful!<br>";
+				$url = $_FILES["upload"]["name"][$numfile - 1];
+				$pathvars = pathinfo($url);
+				$type = $pathvars['extension'];
+				$size = $_FILES["upload"]["size"][$numfile - 1];
+
+				if ($size == 0) {
+					$filestoolarge = $filestoolarge + 1;
+					echo $url . " was not successfully uploaded.<br>";
+				} else {
+					$uploadOk = 1;
+					if(isset($_POST["submit"])) {
+						// idk
+					}
+					$stmt->execute();
+					echo $url . " successfully uploaded as " . $name . ".<br>";
+				}
+
+				$numfile = $numfile + 1;
+			}
+
+			$successes = $numfile - $filestoolarge - 1;
+			if ($successes == 1) {
+				echo "<br>1 file was successfully uploaded.<br>";
+			} else {
+				echo "<br>" . $successes . " files were successfully uploaded.<br>";
+			}
+			if ($filestoolarge != 0) {
+				if ($filestoolarge == 1) {
+					echo "1 file upload was unsuccessful (fize size too large).<br>";
+				} else {
+					echo $filestoolarge . " file uploads were unsuccessful (fize size too large).<br>";
+				}
+			}
 
 			$stmt->close();
+
 		}
 
   }

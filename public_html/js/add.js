@@ -44,7 +44,7 @@ $('#file-lo').on('change', function() {
   if ($('#file-lo').val() == "online") {
     $("#file-lo-form").html('Paste File URL: * <input type="text" name="url" id="file-url"><br>');
   } else if ($('#file-lo').val() == "local") {
-    $("#file-lo-form").html('<input type="hidden" name="MAX_FILE_SIZE" value="100000" />Upload File: * <input type="file" name="upload[]" id="file-url"><br>');
+    $("#file-lo-form").html('<input type="hidden" name="MAX_FILE_SIZE" value="10000000" />Upload Files: * (Maximum File Size: 10,000,000 bytes)<input type="file" name="upload[]" id="file-url" multiple="" ><br>');
   } else {
     $("#file-lo-form").html("Select a value above.<br>");
   }
