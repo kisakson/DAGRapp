@@ -24,7 +24,10 @@ $('#file-add-button').on('click', function(e) {
       $.ajax({
           url : '/php/responses/add.php',
           type: "POST",
-          data: $('#file-add-form').serialize(),
+          data: new FormData($('#file-add-form')[0]),
+          cache: false,
+          contentType: false,
+          processData: false,
           success: function (result) {
               $("#results").html(result);
           },
@@ -41,7 +44,7 @@ $('#file-lo').on('change', function() {
   if ($('#file-lo').val() == "online") {
     $("#file-lo-form").html('Paste File URL: * <input type="text" name="url" id="file-url"><br>');
   } else if ($('#file-lo').val() == "local") {
-    $("#file-lo-form").html('Upload File: * <input type="text" name="url" id="file-url">TODO.....<br>');
+    $("#file-lo-form").html('<input type="hidden" name="MAX_FILE_SIZE" value="100000" />Upload File: * <input type="file" name="upload[]" id="file-url"><br>');
   } else {
     $("#file-lo-form").html("Select a value above.<br>");
   }

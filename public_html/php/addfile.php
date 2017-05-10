@@ -1,7 +1,7 @@
 <h2>Add a File</h2>
 <p>This page adds a new File within a DAGR. This containing DAGR can be created alone or within another existing DAGR.</p>
         
-<form method="post" action="<?php echo htmlspecialchars('php/responses/add.php');?>" id="file-add-form">
+<form method="post" action="<?php echo htmlspecialchars('php/responses/add.php');?>" enctype="multipart/form-data" id="file-add-form">
 	File Name: <input type="text" name="name" id="file-name"><br>
   Creator Name: * <input type="text" name="creator" id="file-creator"><br>
   Local or Online File: * <select name="localoronline" id="file-lo">
