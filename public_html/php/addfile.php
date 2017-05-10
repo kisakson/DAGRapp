@@ -28,7 +28,7 @@
     ?>
   </select><br>
   <input type="hidden" name="object" value="file">
-	<input type="submit" name="submit" value="Submit" id='file-add-button'/>
+	<input type="submit" name="submit" value="Submit" class='submit-button' id='file-add-button'/>
 </form>
 
 <script src="/js/add.js"></script>

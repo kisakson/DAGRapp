@@ -20,7 +20,7 @@
     ?>
   </select><br>
   <input type="hidden" name="object" value="dagr">
-	<input type="submit" name="submit" value="Submit" id='dagr-add-button'/>
+	<input type="submit" name="submit" value="Submit" class='submit-button' id='dagr-add-button'/>
 </form>
 
 <script src="/js/add.js"></script>

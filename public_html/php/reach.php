@@ -1,36 +1,11 @@
-<?php
-	include 'connect.php';
+<h2>Reach Report</h2>
 
-	$db = db_connect();
-	/*$stmt = $db->prepare("SELECT * FROM `DAGR` WHERE `Name` LIKE ?");
-	
-	@$stmt->bind_param('s', $name)
-	OR die('Could not connect. .. . .. .');
-	
-	$stmt->execute();
-	$stmt->bind_result($col1, $col2, $col3, $col4, $col5);
+<form method="get" action="<?php echo htmlspecialchars('php/responses/reach.php');?>" id="dagr-reach-form">
+  DAGR Name: <input type="text" name="name"><br>
+  <input type="submit" name="submit" value="Reach" class='submit-button' id='dagr-reach-button'/>
+  <br>
+</form>
 
-	print '<table border="5">';
-	print '<tr>';
-	print '<td> GUID </td>';
-	print '<td> Name </td>';
-	print '<td> Creator </td>';
-	print '<td> Time_created </td>';
-	print '<td> Parent_id </td>';
-	print '</tr>';
-
-	fetch records
-	while($stmt->fetch()) {
-  	    print '<tr>';
-	    print '<td>'.$col1.'</td>';
-	    print '<td>'.$col2.'</td>';
-	    print '<td>'.$col3.'</td>';
-	    print '<td>'.$col4.'</td>';
-	    print '<td>'.$col5.'</td>';
-	    print '</tr>';
-
-	}   
-	print '</table>';*/
-	
-  $stmt->close();
-?>
+<script src="/js/body.js"></script>
+<br>
+<div id='results'></div>

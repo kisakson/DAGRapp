@@ -9,7 +9,7 @@
 	URL: <input type="text" name="url"><br>
 	File Type: <input type="text" name="type"><br>
 	<input type="hidden" name="object" value="file">
-	<input type="submit" name="submit" value="Submit" id='file-search-button'/>
+	<input type="submit" name="submit" value="Submit" class='submit-button' id='file-search-button'/>
 </form>
 
 <script src="/js/search.js"></script>
