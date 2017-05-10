@@ -26,4 +26,3 @@
 <script src="/js/add.js"></script>
 
 <div id='results'></div>
-

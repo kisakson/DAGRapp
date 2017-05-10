@@ -30,7 +30,7 @@
 	
 	  $stmt->execute();
 
-    if (mysql_affected_rows() > 0) {
+    if (mysqli_stmt_affected_rows($stmt) > 0) {
       echo "Success";
     } else {
       echo "Error";
