@@ -30,7 +30,7 @@ function filedelete(input) {
   if ($(hashinput).text() == "Delete") {
     $(hashinput).css("color", "#800000");
     $(hashinput).text("Confirm");
-  } else if ($(hashinput).text() == "Confirm deletion") {
+  } else if ($(hashinput).text() == "Confirm") {
     $.ajax({
         url : '/php/responses/delete.php',
         type: "POST",

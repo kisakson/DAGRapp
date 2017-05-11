@@ -31,7 +31,7 @@
 	    print '<td style="text-align:center">'.$col4.'</td>';
 	    print '<td style="text-align:center">'.(($col5) ? ('Local') : ('Online')).'</td>';
 			if ($col5 == 1) {
-				print print '<td style="text-align:center">' . $col6 . '</a></td>';
+				print '<td style="text-align:center">' . $col6 . '</a></td>';
 			} else {
 				print '<td style="text-align:center"><a href="' . htmlspecialchars($col6) . '">' . $col6 . '</a></td>';
 			}
