@@ -17,8 +17,8 @@
 	  $stmt->execute();
 	  $stmt->bind_result($col1, $col2, $col3, $col4, $col5);
 
-	  $output = '<table border="5"><tr><td>Guid</td><td>Name</td><td>Creator</td><td>Time_created</td><td>Parent_id</td>'
-			. '<td>Modify</td><td>Delete</td></tr>';
+	  $output = 'Results:<br><table class="table table-bordered table-hover"><thead><tr><td>Guid</td><td>Name</td><td>Creator</td>'
+			. '<td>Time_created</td><td>Parent_id</td><td>Modify</td><td>Delete</td></tr></thead>';
 		$numrow = 1;
 	  while($stmt->fetch()) {
 		  $output = $output . '<tr><td>' . $col1 . '</td><td>' . htmlspecialchars($col2) . '</td><td>'
@@ -57,10 +57,11 @@
 
     $stmt->execute();
 	  $stmt->bind_result($col1, $col2, $col3, $col4, $col5, $col6, $col7, $col8, $col9);
+		
 
-    $output = '<table border="5"><tr><td>Guid</td><td>Name</td><td>Creator</td><td>Time_created</td>'
+    $output = 'Results:<br><table class="table table-bordered table-hover"><thead><tr><td>Guid</td><td>Name</td><td>Creator</td><td>Time_created</td>'
       . '<td>Location</td><td>URL</td><td>File Size</td><td>File Extension</td><td>Parent_id</td>'
-			. '<td>Modify</td><td>Delete</td></tr>';
+			. '<td>Modify</td><td>Delete</td></tr></thead>';
 
 	  while($stmt->fetch()) {
       $output = $output . '<tr><td>' . $col1 . '</td><td>' . htmlspecialchars($col2) . '</td><td>' . htmlspecialchars($col3)

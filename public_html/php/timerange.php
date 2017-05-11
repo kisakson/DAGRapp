@@ -1,11 +1,8 @@
-<script src="/js/body.js"></script>
 <h2>Time Range Report</h2>
-<h4>View a time report for DAGRs created from </h4>
-<h5>
-
+<p>View a time report for DAGRs created from...</p>
 
 <form method="get" action="<?php echo htmlspecialchars('php/responses/time.php');?>" id="dagr-time-form">
-<br>
+<div class='form-row'>
 Month
 <select name=start_dropdown><?php 	// START MONTH
 for($month=1; $month<13; $month++)	// the interval for months is [1-12]
@@ -24,11 +21,12 @@ Time
       for($mins=0; $mins<60; $mins+=30) // the interval for mins is '30'
           echo '<option>'.str_pad($hours,2,'0',STR_PAD_LEFT).':'
                          .str_pad($mins,2,'0',STR_PAD_LEFT).'</option>';
-?></select>   
+?></select> 2017  
+</div>
 
-
-<br><br> to <br><br>
+<br> to <br><br>
   
+<div class='form-row'>
 Month
 <select name=end_dropdown><?php  	// END MONTH
 for($month=1; $month<13; $month++)	// the interval for months is [1-12]
@@ -49,10 +47,11 @@ Time
     for($mins=0; $mins<60; $mins+=30) 	// the interval for mins is '30'
         echo '<option>'.str_pad($hours,2,'0',STR_PAD_LEFT).':'
                        .str_pad($mins,2,'0',STR_PAD_LEFT).'</option>';
-?></select>
-</h5>
+?></select> 2017
+</div><br>
 
-<input type="submit" name="submit" value="Get Time Range" class='submit-button' id='dagr-time-button'/>
+<div class='form-row'><input type="submit" name="submit" value="Get Time Range" class='submit-button' id='dagr-time-button'/></div>
 </form>
-<br>
 <div id='results'></div>
+
+<script src="/js/time.js"></script>

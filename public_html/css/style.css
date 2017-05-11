@@ -22,6 +22,9 @@ a:hover {
 }
 form {
   color: #034660;
+  font-weight: bold;
+  margin-top: 24px;
+  margin-bottom: 16px;
 }
 table {
   text-align: center;
@@ -52,6 +55,30 @@ table {
   background-color: #70E0C8;
   border-color: #70E0C8;
 }
+.table>tbody>tr>td>button {
+  background-color: #02C39A; 
+  border: none; 
+  color: #FCFFFC;
+  border-radius: 4px;
+  padding: 8px 16px 8px 16px;
+}
+.table>tbody>tr>td {
+  vertical-align: inherit;
+}
+.table-bordered>tbody>tr>td {
+  vertical-align: inherit;
+  max-width: 200px;
+  word-wrap: break-word;
+}
+.form-row>.submit-button {
+  font-weight: normal;
+}
+.form-row>input {
+  font-weight: normal;
+}
+.form-row>select {
+  font-weight: normal;
+}
 .submit-button {
   background-color: #02C39A; 
   border: none;
@@ -76,7 +103,7 @@ table {
   width: 90%;
 }
 .container.footer {
-  bottom: 10px;
+  bottom: 20px;
   font-size: 16px;
   margin-left: 0;
   padding: 0;
