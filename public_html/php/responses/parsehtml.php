@@ -28,8 +28,6 @@
 
   $file = $dom->saveHTML();
   $size = strlen($file);
-  // TODO: file size is always slightly smaller than what http://smallseotools.com/website-page-size-checker/ says
-  // look into this later..
 
   $stmtfile = $db->prepare("INSERT INTO `File` (`Name`, `Creator`, `Local_or_online`, `URL`, `Size`, `File_type`, `Parent_id`)
          VALUES (?, ?, 0, ?, ?, 'html', ?);");
@@ -75,6 +73,14 @@
       // Ex: if url is image.jpg, new url is the form of http://www.websitename.com/image.jpg
       if (preg_match($regex, $imgurl) == 0) {
         $imgurl = $url . $imgurl;
+      }
+
+      // remove leading slashes
+      while (substr($imgurl, 0, 1) === "/") {
+        $imgurl = substr($imgurl, 1, strlen($imgurl));
+      }
+      if (substr($imgurl, 0, 4) !== "http") {
+        $imgurl = "http://" . $imgurl;
       }
 
       // See if img already exists in db

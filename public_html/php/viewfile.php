@@ -2,14 +2,13 @@
 	include '../connect.php';
 
 	$db = db_connect();
-	$stmt = $db->prepare("SELECT * FROM `File`");
+	$stmt = $db->prepare("SELECT * FROM `File` ORDER BY `Time_created` DESC");
 	
 	$stmt->execute();
 	$stmt->bind_result($col1, $col2, $col3, $col4, $col5, $col6, $col7, $col8, $col9);
 
 	print '<h2>View All Files</h2>';
-	print '<style> td { padding: 5px; } </style>';	// CSS STYLE OPTIONS
-	print '<table border="5">';			// HTML5 TABLE OPTIONS
+	print '<table class="table table-bordered table-hover"><thead>';
 	
 	print '<tr>';
 	print '<td style="text-align:center"> GUID </td>';	
@@ -21,8 +20,7 @@
 	print '<td style="text-align:center"> File Size </td>';
 	print '<td style="text-align:center"> File Extension </td>';
 	print '<td style="text-align:center"> Parent GUID </td>';
-	print '</tr>';
-
+	print '</tr></thead>';
 
 	//fetch records
 	while($stmt->fetch()) {

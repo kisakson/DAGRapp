@@ -3,9 +3,9 @@
 <p>To save a file in the database, select the option above to add a new file.</p>
         
 <form method="post" action="<?php echo htmlspecialchars('php/responses/add.php');?>" id="dagr-add-form">
-	DAGR Name: <input type="text" name="name"><br>
-  Creator Name: <input type="text" name="creator"><br>
-  DAGR Parent: <select name="parent">
+	<div class='form-row'>DAGR Name: <input type="text" name="name"></div><br>
+  <div class='form-row'>Creator Name: <input type="text" name="creator"></div><br>
+  <div class='form-row'>DAGR Parent: <select name="parent">
     <option value="none">None</option>
     <?php
       include '../connect.php';
@@ -18,9 +18,23 @@
         echo '<option value="', $col1, '">', $col2, ' - id: ', $col1, '</option>';
       }
     ?>
-  </select><br>
+  </select></div><br>
+  <div class='form-row'>Category: <select name="category">
+    <option value="none">None</option>
+    <?php
+      $stmt = $db->prepare("SELECT DISTINCT `Category` FROM `Categories` ORDER BY `Category`");
+      $stmt->execute();
+	    $stmt->bind_result($cat);
+      while($stmt->fetch()) {
+        echo '<option value="', $cat, '">', $cat, '</option>';
+      }
+      
+      $stmt->close();
+    ?>
+    
+  </select></div><br>
   <input type="hidden" name="object" value="dagr">
-	<input type="submit" name="submit" value="Submit" id='dagr-add-button'/>
+	<div class='form-row'><input type="submit" name="submit" value="Submit" class='submit-button' id='dagr-add-button'/></div>
 </form>
 
 <script src="/js/add.js"></script>

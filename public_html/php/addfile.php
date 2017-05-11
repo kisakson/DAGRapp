@@ -5,15 +5,15 @@
 <p>b) Leave the file name field empty and all files will be named after the upload file name.</p>
         
 <form method="post" action="<?php echo htmlspecialchars('php/responses/add.php');?>" enctype="multipart/form-data" id="file-add-form">
-	File Name: <input type="text" name="name" id="file-name"><br>
-  Creator Name: * <input type="text" name="creator" id="file-creator"><br>
-  Local or Online File: * <select name="localoronline" id="file-lo">
+	<div class='form-row'>File Name: <input type="text" name="name" id="file-name"></div><br>
+  <div class='form-row'>Creator Name: * <input type="text" name="creator" id="file-creator"></div><br>
+  <div class='form-row'>Local or Online File: * <select name="localoronline" id="file-lo">
     <option value="null"></option>
     <option value="local">Local</option>
     <option value="online">Online</option>
-  </select></br>
-  <div id="file-lo-form">Select a value above.<br></div>
-  DAGR Parent: * <select name="parent" id="file-parent">
+  </select></div></br>
+  <div class='form-row' id="file-lo-form">Select a value above.</div><br>
+  <div class='form-row'>DAGR Parent: * <select name="parent" id="file-parent">
     <option value="null"></option>
     <?php
       include '../connect.php';
@@ -26,9 +26,9 @@
         echo '<option value="', $col1, '">', $col2, ' - id: ', $col1, '</option>';
       }
     ?>
-  </select><br>
+  </select></div><br>
   <input type="hidden" name="object" value="file">
-	<input type="submit" name="submit" value="Submit" id='file-add-button'/>
+	<div class='form-row'><input type="submit" name="submit" value="Submit" class='submit-button' id='file-add-button'/></div>
 </form>
 
 <script src="/js/add.js"></script>

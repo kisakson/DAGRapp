@@ -40,6 +40,7 @@
           <ul class="dropdown-menu">
             <li><a href="#" onClick='changePage("viewdagr")'>View All DAGRs</a></li>
             <li><a href="#" onClick='changePage("viewfile")'>View All Files</a></li>
+            <li><a href="#" onClick='changePage("filecontains")'>View All File Relationships</a></li>
           </ul>
         </div></li>
         <li><div class="dropdown">
