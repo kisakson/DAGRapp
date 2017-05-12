@@ -2,12 +2,16 @@
 
 include '../../connect.php';
 
-function my_reach($r_name) {
+$hasreached = array();
 
-    $db = db_connect();
+function my_reach($r_name, $hasreached) {
+
+  $db = db_connect();
     
-    if ($r_name && !is_null($r_name)) {
-	$name = $r_name;
+  if ($r_name && !is_null($r_name)) {
+	  $name = $r_name;
+
+    array_push($hasreached, $name);
 
 	// echo '<p>'. $name .'</p?';
 	
@@ -15,59 +19,59 @@ function my_reach($r_name) {
       WHERE d.`Parent_id` = tv.`GUID` or d.`GUID` = tv.`Parent_id` GROUP BY `GUID`) AS `d1`
       WHERE `d1`.`GUID` NOT IN ( SELECT `GUID` FROM `DAGR` WHERE `Name` LIKE ? ) ORDER BY `Name`');
 
-	if ($stmt) {
-		@$stmt->bind_param('ss', $name, $name)
-		OR die('Error, could not reach any DAGRs at this time.<br>');
-	} else {
-		print '<p>Done!<p><br>';
-		exit(0);
-	}
-
+	  if ($stmt) {
+		  @$stmt->bind_param('ss', $name, $name)
+		  OR die('Error, could not reach any DAGRs at this time.<br>');
+	  } else {
+		  print '<p>Done!<p><br>';
+		  exit(0);
+	  }
 	
-	$stmt->execute();
-	$stmt->bind_result($col1, $col2, $col3, $col4, $col5);
+	  $stmt->execute();
+	  $stmt->bind_result($col1, $col2, $col3, $col4, $col5);
 
-	$reached = array();
+	  $reached = array();
 
-	//fetch records
-	while($stmt->fetch()) {
-  	  print '<tr>';
-	    print '<td style="text-align:center">'.$col1.'</td>';		// Additional Reachable DAGRs. . . 
-	    print '<td style="text-align:center">'.$col2.'</td>';
-	    $reached[] = $col2;						// <--- are stored here	    
-	    print '<td style="text-align:center">'.$col3.'</td>';
-	    print '<td style="text-align:center">'.$col4.'</td>';
-	    print '<td style="text-align:center">'. (($col5) ? ($col5) : ('No Parent')).'</td>';
-	    print '</tr>';
+	  //fetch records
+	  while($stmt->fetch()) {
+      if (!in_array($col2, $hasreached)) {
+  	    print '<tr>';
+	      print '<td style="text-align:center">'.$col1.'</td>';		// Additional Reachable DAGRs. . . 
+	      print '<td style="text-align:center">'.$col2.'</td>';
+	      $reached[] = $col2;						// <--- are stored here	    
+	      print '<td style="text-align:center">'.$col3.'</td>';
+	      print '<td style="text-align:center">'.$col4.'</td>';
+	      print '<td style="text-align:center">'. (($col5) ? ($col5) : ('No Parent')).'</td>';
+	      print '</tr>';
 	    //my_reach($col2);
-	}
+      }
+  	}
 	
-	
-    	foreach ($reached as $r) {
-    		print '<p>'.$r.'</p><br>';
-    		
-    	}
+    foreach ($reached as $r) {
+    	print '<p>'.$r.'</p><br>';
+    }
     	
 	//foreach ($reached as $r) {
     	//	my_reach($r);
     	//}
 	
-	$stmt->close();  
+	  $stmt->close();  
 	//unset($reached); 
-     } 
+  } 
 }
 
 
-    $db = db_connect();
+$db = db_connect();
     
-    if ($_GET['name']) {
+if ($_GET['name']) {
 	// $name = $_GET['name'];
-	
-	 $name = $_GET['name'];
+	$name = $_GET['name'];
     	//$name = (!is_null($r_name) ? $r_name : $_GET['name']);
+
+  array_push($hasreached, $name);
     
 	$st = $db->prepare('SELECT * FROM `DAGR` WHERE `Name` LIKE ? ORDER BY `Name`');
-  	$stmt = $db->prepare('SELECT * FROM (SELECT d.* FROM `DAGR` d, ( SELECT `GUID`, `Parent_id` FROM `DAGR` WHERE `Name` LIKE ? ) tv
+  $stmt = $db->prepare('SELECT * FROM (SELECT d.* FROM `DAGR` d, ( SELECT `GUID`, `Parent_id` FROM `DAGR` WHERE `Name` LIKE ? ) tv
       WHERE d.`Parent_id` = tv.`GUID` or d.`GUID` = tv.`Parent_id` GROUP BY `GUID`) AS `d1`
       WHERE `d1`.`GUID` NOT IN ( SELECT `GUID` FROM `DAGR` WHERE `Name` LIKE ? ) ORDER BY `Name`');
 
@@ -87,7 +91,7 @@ function my_reach($r_name) {
 	print '<td style="text-align:center"> Name </td>';
 	print '<td style="text-align:center"> Creator </td>';
 	print '<td style="text-align:center"> Date </td>';
-  	print '<td style="text-align:center"> Parent ID </td>';
+  print '<td style="text-align:center"> Parent ID </td>';
 	print '</tr></thead>';
 	
 	// fetch records
@@ -134,24 +138,26 @@ function my_reach($r_name) {
 	//my_reach($col2);
 	
 	foreach ($reached as $r) {
-    		//my_reach($r);
-    		print '<p>'.$r.'</p><br>';
-    	}
+    //my_reach($r);
+    //print '<p>'.$r.'</p><br>';
+  }
     	
 	foreach ($reached as $r) {
-    		my_reach($r);
-
-    	}
+    if (!in_array($r, $hasreached)) {
+    	my_reach($r, $hasreached);
+      print '<p>'.$r.'</p><br>';
+    }
+  }
     	
     	
 	print '</table><br>';
 	$stmt->close();   
      
-     } else {
-    	echo '<script language="javascript">';
+} else {
+  echo '<script language="javascript">';
 	echo 'alert("Please enter a name")';
 	echo '</script>';
-     }
+}
 
 ?>
 
