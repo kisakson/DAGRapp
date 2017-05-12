@@ -8,26 +8,51 @@
 
 	  $name = '%' . $_GET['name'] . '%';
 	  $creator = '%' . $_GET['creator'] . '%';
-	  $cat = $_GET['category'];
-	  $stmt = $db->prepare("SELECT * FROM `DAGR` WHERE `Name` LIKE ? AND `Creator` LIKE ?");
+	  $cat = '%' . $_GET['cat'] . '%';
+		if (empty($_GET['cat']) || $_GET['cat'] == "none") {
+			$stmt = $db->prepare("SELECT * FROM `DAGR` WHERE `Name` LIKE ? AND `Creator` LIKE ?");
 	
-	  @$stmt->bind_param('ss', $name, $creator)
-	  OR die('Could not connect. .. . .. .');
+	  	@$stmt->bind_param('ss', $name, $creator)
+	  	OR die('Could not connect. .. . .. .');
 	
-	  $stmt->execute();
-	  $stmt->bind_result($col1, $col2, $col3, $col4, $col5);
+	  	$stmt->execute();
+	  	$stmt->bind_result($col1, $col2, $col3, $col4, $col5);
 
-	  $output = 'Results:<br><table class="table table-bordered table-hover"><thead><tr><td>Guid</td><td>Name</td><td>Creator</td>'
-			. '<td>Time_created</td><td>Parent_id</td><td>Delete</td></tr></thead>';
-		$numrow = 1;
-	  while($stmt->fetch()) {
-		  $output = $output . '<tr><td>' . $col1 . '</td><td>' . htmlspecialchars($col2) . '</td><td>'
-				. htmlspecialchars($col3) . '</td><td>' . $col4 . '</td><td>' . (($col5) ? ($col5) : ('No parent')) . '</td>'
-				. '<td><button type="button" id=' . $col1 . ' onclick=dagrdelete("' . $col1 . '")>Delete</button></td>' . '</tr>';
-				$numrow = $numrow + 1;
-	  }
-	  $output = $output . '</table>';
-	  echo $output;
+	  	$output = 'Results:<br><table class="table table-bordered table-hover"><thead><tr><td>Guid</td><td>Name</td><td>Creator</td>'
+				. '<td>Time_created</td><td>Parent_id</td><td>Delete</td></tr></thead>';
+			$numrow = 1;
+	  	while($stmt->fetch()) {
+			  $output = $output . '<tr><td>' . $col1 . '</td><td>' . htmlspecialchars($col2) . '</td><td>'
+					. htmlspecialchars($col3) . '</td><td>' . $col4 . '</td><td>' . (($col5) ? ($col5) : ('No parent')) . '</td>'
+					. '<td><button type="button" id=' . $col1 . ' onclick=dagrdelete("' . $col1 . '")>Delete</button></td>' . '</tr>';
+					$numrow = $numrow + 1;
+	  	}
+	  	$output = $output . '</table>';
+	  	echo $output;
+		} else {
+			$stmt = $db->prepare("SELECT `DAGR`.*, `category` FROM `DAGR` INNER JOIN (SELECT * FROM `Categories` WHERE `category` LIKE ?) AS `c`
+					ON `DAGR`.`GUID` = `c`.`GUID` WHERE `Name` LIKE ? AND `Creator` LIKE ?");
+	
+	  	@$stmt->bind_param('sss', $cat, $name, $creator)
+	  	OR die('Could not connect. .. . .. .');
+			
+	  	$stmt->execute();
+	  	$stmt->bind_result($col1, $col2, $col3, $col4, $col5, $col6);
+
+	  	$output = 'Results:<br><table class="table table-bordered table-hover"><thead><tr><td>Guid</td><td>Name</td><td>Creator</td>'
+				. '<td>Time_created</td><td>Parent_id</td><td>Category</td><td>Delete</td></tr></thead>';
+			$numrow = 1;
+	  	while($stmt->fetch()) {
+			  $output = $output . '<tr><td>' . $col1 . '</td><td>' . htmlspecialchars($col2) . '</td><td>'
+					. htmlspecialchars($col3) . '</td><td>' . $col4 . '</td><td>' . (($col5) ? ($col5) : ('No parent')) . '</td>'
+					. '<td>' . $col6 . '</td>'
+					. '<td><button type="button" id=' . $col1 . ' onclick=dagrdelete("' . $col1 . '")>Delete</button></td>' . '</tr>';
+					$numrow = $numrow + 1;
+	  	}
+	  	$output = $output . '</table>';
+	  	echo $output;
+		}
+	  
 		echo '<script src="/js/modify.js"></script>';
 		echo '<script src="/js/delete.js"></script>';
     $stmt->close();
