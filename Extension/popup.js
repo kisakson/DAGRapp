@@ -33,25 +33,14 @@ $('#file-add-button').on('click', function(e) {
 
 */
 
+// I am following this tutorial: https://www.sitepoint.com/create-chrome-extension-10-minutes-flat/
 document.addEventListener('DOMContentLoaded', function() {
   var addFileButton = document.getElementById('addFile');
   var homepageButton = document.getElementById('homepage');
 
-  // I am following this tutorial: https://www.sitepoint.com/create-chrome-extension-10-minutes-flat/
-
   if (addFileButton) {
   	addFileButton.addEventListener('click', function() {
     	chrome.tabs.getSelected(null, function(tab) {
-    		//if (document.getElementById('addDAGR').checked) {
-    		//	createDAGR();
-    		//} else {
-    						//createFile();
-    		/****************************************
-    		 *										*
-    		 *				FORM					*
-    		 *			   (FILE)					*
-    		 ****************************************/
-    		 
     		 // Website --> send to parsehtml.php
     		 // > name (optional)
     		 // > creator
@@ -96,8 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			console.log(url.value);
 			form.appendChild(url);
 			
-			// createDAGR(dagr_name, creator)
-			
 			// <input type="hidden" name="object" value="file">
 			var obj = document.createElement('input');
 			obj.type 	= 'hidden';
@@ -117,12 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			document.body.appendChild(form);
 			//}    		
         });
-    /*
-      // make a call that adds current DAGR to the database.
-      // I think we need to make a call to the webserver, THEN the webserver connects to the database
-      // I believe the extension itself cannot connect to the database. we need the mediator.actio
       // read this: http://stackoverflow.com/questions/20048483/insert-into-mysql-from-chrome-extension
-    	*/
   	}, false);
   }
 
@@ -135,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 }, false);
 
+/*
 function createDAGR(dagr_name, creator) {
 	// if user requests a name, use this name, otherwise use the GUID as the name
 	// use a current timestamp function to create the time
@@ -144,8 +127,6 @@ function createDAGR(dagr_name, creator) {
 	
 	// BUG CHECK: see if using the var form works for all of the different functions
 	// or if we need different names for all of these vars
-
-	// ---------
 
 	var form = document.createElement('form');
 	//form.action = TODO!!!! something like 'http://gtmetrix.com/analyze.html?bm';
@@ -158,16 +139,12 @@ function createDAGR(dagr_name, creator) {
 	fguid.value = GUID;
 	form.appendChild(fguid);
 
-			document.body.appendChild(form);
-			
-			
-  			/* DAGR Parent: <select name="parent"> */
+  			// DAGR Parent: <select name="parent"> 
 			var parent   = document.createElement('input');
 			parent.type  = 'hidden';
 			parent.name  = 'parent';
 			parent.value = 'none';
 			form.appendChild(parent);
-			/**/
 			
 			// <input type="hidden" name="object" value="dagr" />
 			var obj = document.createElement('input');
@@ -185,15 +162,7 @@ function createDAGR(dagr_name, creator) {
 			form.appendChild(sub);
 
 			document.body.appendChild(form);
-			
-			
 };
-
-	var fcreator = document.createElement('dagrCreator');
-	fcreator.type = 'hidden';
-	fcreator.name = 'creator';
-	fcreator.value = creator;
-	form.appendChild(fcreator);
 */
 
 function createFile() {
