@@ -107,7 +107,7 @@ if ($_GET['guid']) {
 	print '<td style="text-align:center"> Name </td>';
 	print '<td style="text-align:center"> Creator </td>';
 	print '<td style="text-align:center"> Date </td>';
-  print '<td style="text-align:center"> Parent ID </td>';
+  	print '<td style="text-align:center"> Parent ID </td>';
 	print '</tr></thead>';
 	
 	// fetch records
@@ -160,6 +160,7 @@ if ($_GET['guid']) {
   	  print '<tr>';
 	    print '<td style="text-align:center">'.$col1.'</td>';		// Additional Reachable DAGRs. . . 	    
 	    print '<td style="text-align:center">'.$col2.'</td>';
+	    $reached[$col1] = $col2;							// <--- are stored here	    
 	    print '<td style="text-align:center">'.$col3.'</td>';
 	    print '<td style="text-align:center">'.$col4.'</td>';
 	    print '<td style="text-align:center">'. (($col5) ? ($col5) : ('No Parent')).'</td>';
@@ -181,6 +182,18 @@ if ($_GET['guid']) {
 	echo 'alert("Please select a DAGR")';
 	echo '</script>';
 }
+
+    	}
+    	
+    	
+	print '</table><br>';
+	$stmt->close();   
+     
+     } else {
+    	echo '<script language="javascript">';
+	echo 'alert("Please enter a name")';
+	echo '</script>';
+     }
 
 ?>
 

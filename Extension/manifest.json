@@ -13,5 +13,5 @@
   "background": {
       "scripts": ["popup.js"]
   },
-  "permissions": ["activeTab"]
+  "permissions": ["activeTab", "tabs", "http://www.bagelcron.com/php/responses/parsehtml.php"]
 }

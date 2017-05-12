@@ -1,53 +1,124 @@
-document.addEventListener('DOMContentLoaded', function() {
-  var addDAGRButton = document.getElementById('addDAGR');
-  var homepageButton = document.getElemenyById('homepage');
+function escapeHTML(text) {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
 
-  // I am following this tutorial: https://www.sitepoint.com/create-chrome-extension-10-minutes-flat/
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
 
-  addDAGRButton.addEventListener('click', function() {
-    chrome.tabs.getSelected(null, function(tab) {
-			var form = document.createElement('form');
-			//form.action = TODO!!!! something like 'http://gtmetrix.com/analyze.html?bm';
-			form.method = 'post';
-
-			var url = document.createElement('url');
-			url.type = 'hidden';
-			url.name = 'url';
-			url.value = tab.url;
-			form.appendChild(url);
-
-			// things to insert: name, creator, time_created, local_of_online = online, url, size, file_type = html, parent_id set later
-			// create some kind of website function that creates the DAGR with random guid and all that, creates the file with
-			// the random guid and all of the input values, parent id is the DAGR guid, etc.
-			// basically the extension sends over all of this info then creates the stuff
-			// maybe runs another function over and over for all of the other files in the html doc, runs a similar call
-			// but the insertion code all happens in the web application side
-			// idea: click the add dagr button, it asks for a custom name which will be sent with name
-			// include a call to the website to get all DAGR names and guids, ask to add file to a new DAGR or to an already made DAGR
-			// use this as a dropdown thing
-			// then it's like an if/else, either create the dagr or just insert the file and use p_id as the guid you selected  
-
-			document.body.appendChild(form);
-			form.submit();
+/*
+document.addEventListener('', function() {
+$('#file-add-button').on('click', function(e) {
+  // TODO do a check to see if any input values are missing
+  e.preventDefault();
+    $.ajax({
+        url : 'http://www.bagelcron.com/php/responses/parsehtml.php',
+        type: "POST",
+        data: $('#file-add-form').serialize(),
+        success: function (result) {
+            $("#results").html(result);
+        },
+        error: function (jXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
     });
-    /*
-      // make a call that adds current DAGR to the database.
-      // I think we need to make a call to the webserver, THEN the webserver connects to the database
-      // I believe the extension itself cannot connect to the database. we need the mediator.actio
-      // read this: http://stackoverflow.com/questions/20048483/insert-into-mysql-from-chrome-extension
-    */
-  }, false);
-
-  homepageButton.addEventListener('click', function() {
-    var homepage = "http://www.baglecron.com";
-    chrome.tabs.create({ url: homepage });
-  }, false);
+  $("#results").html('<p>Adding file...</p>');
+});
 
 }, false);
 
-function createDAGR(guid, name, creator) {
-	// make a call to the website to create the dagr
-	// generate a random GUID
+*/
+
+// I am following this tutorial: https://www.sitepoint.com/create-chrome-extension-10-minutes-flat/
+document.addEventListener('DOMContentLoaded', function() {
+  var addFileButton = document.getElementById('addFile');
+  var homepageButton = document.getElementById('homepage');
+
+  if (addFileButton) {
+  	addFileButton.addEventListener('click', function() {
+    	chrome.tabs.getSelected(null, function(tab) {
+    		 // Website --> send to parsehtml.php
+    		 // > name (optional)
+    		 // > creator
+    		 // > select parent
+    		 // > get the current url
+    		 
+    		// <form method="post" action="<?php echo htmlspecialchars('php/responses/add.php');?>" enctype="multipart/form-data" id="file-add-form">
+			var form = document.createElement('form');
+			form.method 	= 'post';
+			form.action 	= escapeHTML('http://www.bagelcron.com/php/responses/parsehtml.php');
+			form.id 		= 'file-add-form';
+
+			// NAME
+			// File Name: <input type="text" name="name" id="file-name"><br>
+			var file_name 	= document.createElement('input');
+			file_name.type 	= 'text';
+			file_name.name 	= 'name';
+			file_name.id	= 'file-name';
+			form.appendChild(file_name);
+			
+			// CREATOR
+			// Creator Name: * <input type="text" name="creator" id="file-creator"><br>
+			var creator = document.createElement('input');
+			creator.type = 'text';
+			creator.name = 'creator';
+			creator.id = 'file-creator';
+			form.appendChild(creator);
+			
+			// PARENT
+			//DAGR Parent: * <select name="parent" id="file-parent">
+			var parent   = document.createElement('input');
+			parent.type  = 'hidden';
+			parent.name  = 'parent';
+			parent.value = 'null';
+			form.appendChild(parent);
+			
+			// URL
+			var url   = document.createElement('input');
+			url.type  = 'hidden';
+			url.name  = 'url';
+			url.value = window.location.href;
+			console.log(url.value);
+			form.appendChild(url);
+			
+			// <input type="hidden" name="object" value="file">
+			var obj = document.createElement('input');
+			obj.type 	= 'hidden';
+			obj.name 	= 'object';
+			obj.value 	= 'file';
+			form.appendChild(obj);
+			
+			// <input type="submit" name="submit" value="Submit" class='submit-button' id='file-add-button'/>
+			var sub = document.createElement('input');
+			sub.type 	= 'submit';
+			sub.name 	= 'submit';
+			sub.value 	= 'Submit';
+			//sub.class	= 'submit-button';
+			sub.id		= 'file-add-button';
+			form.appendChild(sub);
+			
+			document.body.appendChild(form);
+			//}    		
+        });
+      // read this: http://stackoverflow.com/questions/20048483/insert-into-mysql-from-chrome-extension
+  	}, false);
+  }
+
+  if (homepageButton) {
+  	homepageButton.addEventListener('click', function() {
+    var homepage = "http://www.bagelcron.com/index.php";
+    	chrome.tabs.create({ url: homepage });
+  		}, false);
+  }
+
+}, false);
+
+/*
+function createDAGR(dagr_name, creator) {
 	// if user requests a name, use this name, otherwise use the GUID as the name
 	// use a current timestamp function to create the time
 	// once form is completed, send it
@@ -56,8 +127,6 @@ function createDAGR(guid, name, creator) {
 	
 	// BUG CHECK: see if using the var form works for all of the different functions
 	// or if we need different names for all of these vars
-
-	// ---------
 
 	var form = document.createElement('form');
 	//form.action = TODO!!!! something like 'http://gtmetrix.com/analyze.html?bm';
@@ -70,31 +139,33 @@ function createDAGR(guid, name, creator) {
 	fguid.value = GUID;
 	form.appendChild(fguid);
 
-	var fname = document.createElement('dagrName');
-	fname.type = 'hidden';
-	fname.name = 'name';
-	fname.value = name != null ? name : GUID;
-	form.appendChild(fname);
+  			// DAGR Parent: <select name="parent"> 
+			var parent   = document.createElement('input');
+			parent.type  = 'hidden';
+			parent.name  = 'parent';
+			parent.value = 'none';
+			form.appendChild(parent);
+			
+			// <input type="hidden" name="object" value="dagr" />
+			var obj = document.createElement('input');
+			obj.type 	= 'hidden';
+			obj.name 	= 'object';
+			obj.value 	= 'dagr';
+			form.appendChild(obj);
+			
+			// <input type="submit" name="submit" value="Submit" id='dagr-add-button'/>
+			var sub = document.createElement('input');
+			sub.type 	= 'submit';
+			sub.name 	= 'submit';
+			sub.value 	= 'Submit';
+			sub.id		= 'dagr-add-button';
+			form.appendChild(sub);
 
-	var fcreator = document.createElement('dagrCreator');
-	fcreator.type = 'hidden';
-	fcreator.name = 'creator';
-	fcreator.value = creator;
-	form.appendChild(fcreator);
-
-	// generate current time
-	var time = null;
-	var ftime = document.createElement('dagrTime');
-	ftime.type = 'hidden';
-	ftime.name = 'time';
-	ftime.value = time;
-	form.appendChild(ftime);
-
-	document.body.appendChild(form);
-	form.submit();
+			document.body.appendChild(form);
 };
+*/
 
-function createFile(guid, name, creator, url, size, fileType, parentGUID, parentFile) {
+function createFile() {
 	// same concept as the above function, but with more values. make sure input includes all database values
 	// parent id should be from a new DAGR or a specified DAGR
 	// input to consider: either null or other file guid. is this file a file contained in the html file?
@@ -107,10 +178,56 @@ function createFile(guid, name, creator, url, size, fileType, parentGUID, parent
 	
 	// time and local_or_online not included in the function handle because the first is just generated
 	// and the second is always online for this function call
-};
+    		 
+    		// <form method="post" action="<?php echo htmlspecialchars('php/responses/add.php');?>" id="dagr-add-form">
+			var form 	= document.createElement('form');
+			form.method = 'post';
+			form.action = escapeHTML('http://www.bagelcron.com/php/responses/add.php');
+			form.id 	= 'file-add-form';
+			
+			// NAME
+			// File Name: <input type="text" name="name" id="file-name"><br>
+			var file_name 	= document.createElement('input');
+			file_name.type 	= 'text';
+			file_name.name 	= 'name';
+			form.appendChild(file_name);
+			
+			// CREATOR
+			// Creator Name: * <input type="text" name="creator" id="file-creator"><br>
+			var creator = document.createElement('input');
+			creator.type = 'text';
+			creator.name = 'creator';
+			form.appendChild(creator);
+			
+			// PARENT
+			//DAGR Parent: * <select name="parent" id="file-parent">
+			var parent   = document.createElement('input');
+			parent.type  = 'hidden';
+			parent.name  = 'parent';
+			parent.value = 'null';
+			form.appendChild(parent);
+			
+			// URL
+			var url   = document.createElement('input');
+			url.type  = 'hidden';
+			url.name  = 'url';
+			url.value = window.location.href;
+			form.appendChild(url);
+			
+			// <input type="hidden" name="object" value="file">
+			var obj = document.createElement('input');
+			obj.type 	= 'hidden';
+			obj.name 	= 'object';
+			obj.value 	= 'ext';
+			form.appendChild(obj);
+			
+			// <input type="submit" name="submit" value="Submit" id='dagr-add-button'/>
+			var sub = document.createElement('input');
+			sub.type 	= 'submit';
+			sub.name 	= 'submit';
+			sub.value 	= 'Submit';
+			sub.id		= 'file-add-button';
+			form.appendChild(sub);
 
-function getIncludedFiles() {
-	// return some file structure that contains all of the nested files we need to insert into the database
-	// this is basically the huge HTML parsing part
-	// for each of these files, include the create file
+			document.body.appendChild(form);
 };
