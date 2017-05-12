@@ -4,11 +4,21 @@
 	$db = db_connect();
   $object = $_POST['object'];
 
+	if (empty($_POST['object'])) {
+    echo "Not all required fields are filled.";
+    exit(0);
+  }
+
   if ($object === 'dagr') {
 
 	  $name = $_POST['name'];
 	  $creator = $_POST['creator'];
     $parent = $_POST['parent'];
+		if (empty($_POST['creator'] || empty($_POST['name']))) {
+    	echo "Not all required fields are filled.";
+    	exit(0);
+  	}
+
     if ($parent != "none") {
       $stmt = $db->prepare("INSERT INTO `DAGR` (`Name`, `Creator`, `Parent_id`) VALUES (?, ?, ?);");
       
@@ -32,6 +42,12 @@
   
   } else if ($object === 'file') {
 		$localoronline = -1;
+		
+		if (empty($_POST['localoronline']) || empty($_POST['creator']) || empty($_POST['parent'])) {
+    	echo "Not all required fields are filled.";
+    	exit(0);
+  	}
+		
 		if ($_POST['localoronline'] == "local") { $localoronline = 1; } else { $localoronline = 0; }
 		$creator = $_POST['creator'];
 		$parent = $_POST['parent'];

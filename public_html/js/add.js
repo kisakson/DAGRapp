@@ -1,18 +1,23 @@
 $('#dagr-add-button').on('click', function(e) {
-  // TODO do a check to see if any input values are missing
   e.preventDefault();
-    $.ajax({
-        url : '/php/responses/add.php',
-        type: "POST",
-        data: $('#dagr-add-form').serialize(),
-        success: function (result) {
-            $("#results").html(result);
-        },
-        error: function (jXHR, textStatus, errorThrown) {
-            alert(errorThrown);
-        }
-    });
+  if ($('#dagr-name').val() == "" || $('#dagr-creator').val() == "null") {
+    $('#results').html('<p>Not all required fields are filled.</p>');
+    $('#results').css("color", "red");
+  } else {
+      $.ajax({
+          url : '/php/responses/add.php',
+          type: "POST",
+          data: $('#dagr-add-form').serialize(),
+          success: function (result) {
+              $("#results").html(result);
+          },
+          error: function (jXHR, textStatus, errorThrown) {
+              alert(errorThrown);
+         }
+      });
   $("#results").html('<p>Adding...</p>');
+  $("#results").css("color", "black");
+  }
 });
 
 $('#file-add-button').on('click', function(e) {

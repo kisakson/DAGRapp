@@ -18,13 +18,12 @@
 	  $stmt->bind_result($col1, $col2, $col3, $col4, $col5);
 
 	  $output = 'Results:<br><table class="table table-bordered table-hover"><thead><tr><td>Guid</td><td>Name</td><td>Creator</td>'
-			. '<td>Time_created</td><td>Parent_id</td><td>Modify</td><td>Delete</td></tr></thead>';
+			. '<td>Time_created</td><td>Parent_id</td><td>Delete</td></tr></thead>';
 		$numrow = 1;
 	  while($stmt->fetch()) {
 		  $output = $output . '<tr><td>' . $col1 . '</td><td>' . htmlspecialchars($col2) . '</td><td>'
 				. htmlspecialchars($col3) . '</td><td>' . $col4 . '</td><td>' . (($col5) ? ($col5) : ('No parent')) . '</td>'
-				. '<td><button type="button" id=row-' . $numrow . '>Modify</button></td><td>'
-				. '<button type="button" id=' . $col1 . ' onclick=dagrdelete("' . $col1 . '")>Delete</button></td>' . '</tr>';
+				. '<td><button type="button" id=' . $col1 . ' onclick=dagrdelete("' . $col1 . '")>Delete</button></td>' . '</tr>';
 				$numrow = $numrow + 1;
 	  }
 	  $output = $output . '</table>';
@@ -61,7 +60,7 @@
 
     $output = 'Results:<br><table class="table table-bordered table-hover"><thead><tr><td>Guid</td><td>Name</td><td>Creator</td><td>Time_created</td>'
       . '<td>Location</td><td>URL</td><td>File Size</td><td>File Extension</td><td>Parent_id</td>'
-			. '<td>Modify</td><td>Delete</td></tr></thead>';
+			. '<td>Delete</td></tr></thead>';
 
 	  while($stmt->fetch()) {
       $output = $output . '<tr><td>' . $col1 . '</td><td>' . htmlspecialchars($col2) . '</td><td>' . htmlspecialchars($col3)
@@ -73,7 +72,6 @@
 			}
 			$output = $output . '<td>' . ( ($col7 >= 1000000000) ? ($col7/1000000000 . ' GB') : (($col7 >= 1000000) ? ($col7/1000000 . ' MB') : (($col7 >= 1000) ? ($col7/1000 . ' KB') : ($col7 . ' B'))) )
           . '</td><td>' . $col8 . '</td><td>' . (($col9) ? ($col9) : ('No parent')) . '</td>'
-					. '<td><button type="button" id=row-' . $numrow . '>Modify</button></td>'
 					. '<td><button type="button" id=' . $col1 . ' onclick=filedelete("' . $col1 . '")>Delete</button></td></tr>';
 	  }   
 	  echo $output;

@@ -3,8 +3,8 @@
 <p>To save a file in the database, select the option above to add a new file.</p>
         
 <form method="post" action="<?php echo htmlspecialchars('php/responses/add.php');?>" id="dagr-add-form">
-	<div class='form-row'>DAGR Name: <input type="text" name="name"></div><br>
-  <div class='form-row'>Creator Name: <input type="text" name="creator"></div><br>
+	<div class='form-row'>DAGR Name: * <input type="text" name="name" id="dagr-name"></div><br>
+  <div class='form-row'>Creator Name: * <input type="text" name="creator" id="dagr-name"></div><br>
   <div class='form-row'>DAGR Parent: <select name="parent">
     <option value="none">None</option>
     <?php

@@ -20,6 +20,7 @@
 	print '<td style="text-align:center"> File Size </td>';
 	print '<td style="text-align:center"> File Extension </td>';
 	print '<td style="text-align:center"> Parent GUID </td>';
+	print '<td> Delete </td>';
 	print '</tr></thead>';
 
 	//fetch records
@@ -40,10 +41,12 @@
 	    	  '</td>';
 	    print '<td style="text-align:center">'.$col8.'</td>';
 	    print '<td style="text-align:center">'.(($col9) ? ($col9) : ('No parent')).'</td>';
+			print '<td><button type="button" id=' . $col1 . ' onclick=filedelete("' . $col1 . '")>Delete</button></td>';
 	    print '</tr>';
 
 	}   
 	print '</table><br>';
+	print '<script src="/js/delete.js"></script>';
 	
 	/* close statement */
     	$stmt->close();

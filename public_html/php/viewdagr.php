@@ -15,6 +15,7 @@
 	print '<td> Creator </td>';
 	print '<td> Time_created </td>';
 	print '<td> Parent_id </td>';
+	print '<td> Delete </td>';
 	print '</tr></thead>';
 
 	//fetch records
@@ -25,9 +26,11 @@
 	    print '<td style="text-align:center">'. htmlspecialchars($col3).'</td>'; // to prevent potential XSS attacks.
 	    print '<td style="text-align:center">'.$col4.'</td>';
 	    print '<td style="text-align:center">'.(($col5) ? ($col5) : ('No Parent')).'</td>';
+			print '<td><button type="button" id=' . $col1 . ' onclick=dagrdelete("' . $col1 . '")>Delete</button></td>';
 	    print '</tr>';
 	}  
 	print '</table>';
+	print '<script src="/js/delete.js"></script>';
 	
 	/* close statement */
     	$stmt->close();
