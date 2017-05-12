@@ -7,6 +7,11 @@
   $url = $_POST['url'];
   $parent = $_POST['parent'];
 
+  if (empty($_POST['creator'] || empty($_POST['parent'] || empty($_POST['url'])))) {
+    echo "Not all required fields are filled.";
+    exit(0);
+  }
+
   // See if HTML file exists in DB. If so, don't insert and exit php execution
   $stmtgetguid = $db->prepare("SELECT `GUID` FROM `File` WHERE `URL` = ?");
 	@$stmtgetguid->bind_param('s', $url)
