@@ -1,27 +1,18 @@
-<?php		// TODO: Removing duplicates ($reached[] --> global?)
+<?php
 
 include '../../connect.php';
 
-$hasreached = array();
 
-function my_reach($r_guid, $hasreached) {
+function my_reach($r_guid, $startguid) {
 
   $db = db_connect();
     
   if ($r_guid && !is_null($r_guid)) {
 	  $guid = $r_guid;
 
-    array_push($hasreached, $guid);
-
-	// echo '<p>'. $name .'</p?';
-	
-  	//$stmt = $db->prepare('SELECT * FROM (SELECT d.* FROM `DAGR` d, ( SELECT `GUID`, `Parent_id` FROM `DAGR` WHERE `GUID` = ? ) tv
-    //  WHERE d.`Parent_id` = tv.`GUID` or d.`GUID` = tv.`Parent_id` GROUP BY `GUID`) AS `d1`
-    //  WHERE `d1`.`GUID` NOT IN ( SELECT `GUID` FROM `DAGR` WHERE `GUID` = ? ) ORDER BY `Name`');
     $stmt = $db->prepare('SELECT * FROM `DAGR` WHERE `Parent_id` = ?');
 
 	  if ($stmt) {
-		  //@$stmt->bind_param('ss', $guid, $guid)
       @$stmt->bind_param('s', $guid)
 		  OR die('Error, could not reach any DAGRs at this time.<br>');
 	  } else {
@@ -36,29 +27,23 @@ function my_reach($r_guid, $hasreached) {
 
 	  //fetch records
 	  while($stmt->fetch()) {
-      if (!in_array($col1, $hasreached)) {
+      if ($col1 != $startguid) {
   	    print '<tr>';
 	      print '<td style="text-align:center">'.$col1.'</td>';		// Additional Reachable DAGRs. . . 
-        $reached[] = $col1;						// <--- are stored here	    
 	      print '<td style="text-align:center">'.$col2.'</td>';
 	      print '<td style="text-align:center">'.$col3.'</td>';
 	      print '<td style="text-align:center">'.$col4.'</td>';
 	      print '<td style="text-align:center">'. (($col5) ? ($col5) : ('No Parent')).'</td>';
 	      print '</tr>';
-	    //my_reach($col2);
       }
+      $reached[] = $col1;						// <--- are stored here	    
   	}
 	
     foreach ($reached as $r) {
-    	print '<p>'.$r.'</p><br>';
+      my_reach($r, $startguid);
     }
-    	
-	//foreach ($reached as $r) {
-    	//	my_reach($r);
-    	//}
-	
+
 	  $stmt->close();  
-	//unset($reached); 
   } 
 }
 
@@ -92,11 +77,7 @@ function getparent($r_guid) {
     }
 
 	  $stmt->close();
-
-    echo "True king is " . $guid . "<br><br>";
-
     return $guid;
-
   }
 }
 
@@ -104,23 +85,15 @@ function getparent($r_guid) {
 $db = db_connect();
     
 if ($_GET['guid']) {
-	// $name = $_GET['name'];
 	$guid = $_GET['guid'];
   $startguid = $guid;
-    	//$name = (!is_null($r_name) ? $r_name : $_GET['name']);
-
-  array_push($hasreached, $guid);
     
 	$st = $db->prepare('SELECT * FROM `DAGR` WHERE `GUID` = ?');
-  //$stmt = $db->prepare('SELECT * FROM (SELECT d.* FROM `DAGR` d, ( SELECT `GUID`, `Parent_id` FROM `DAGR` WHERE `GUID` = ? ) tv
-  //    WHERE d.`Parent_id` = tv.`GUID` or d.`GUID` = tv.`Parent_id` GROUP BY `GUID`) AS `d1`
-  //    WHERE `d1`.`GUID` NOT IN ( SELECT `GUID` FROM `DAGR` WHERE `GUID` = ? ) ORDER BY `Name`');
   $stmt = $db->prepare('SELECT * FROM `DAGR` WHERE `Parent_id` = ?');
 
 	@$st->bind_param('s', $guid)
 	OR die('Error, could not find that DAGR at this time.<br>');
 	
-	//@$stmt->bind_param('ss', $guid, $guid)
   @$stmt->bind_param('s', $guid)
 	OR die('Error, could not reach any DAGRs at this time.<br>');
 	
@@ -149,12 +122,7 @@ if ($_GET['guid']) {
 	}
 	print '</table><br>';
 
-  $guid = getparent($guid);
-	
-	$stmt->execute();
-	$stmt->bind_result($col1, $col2, $col3, $col4, $col5);
-
-	print '<table class="table table-bordered table-hover"><thead>';
+  print '<table class="table table-bordered table-hover"><thead>';
 	print '<h4>Additional reachable DAGRs: </h4>';
 	print '<tr>';
 	print '<td style="text-align:center"> GUID </td>';
@@ -163,6 +131,26 @@ if ($_GET['guid']) {
 	print '<td style="text-align:center"> Date </td>';
 	print '<td style="text-align:center"> Parent ID </td>';
 	print '</tr></thead>'; 
+
+  $guid = getparent($guid);
+  if ($guid != $startguid) { // print highest parent if necessary
+    $st->execute();
+	  $st->bind_result($c1, $c2, $c3, $c4, $c5);
+    while($st->fetch()) {
+  	  print '<tr>';
+	    print '<td style="text-align:center">'.$c1.'</td>';
+	    print '<td style="text-align:center">'.$c2.'</td>';
+	    print '<td style="text-align:center">'.$c3.'</td>';
+	    print '<td style="text-align:center">'.$c4.'</td>';
+      print '<td style="text-align:center">'. (($c5) ? ($c5) : ('No Parent')).'</td>';
+	    print '</tr>';
+	  }
+  }
+
+  $st->close();
+
+	$stmt->execute();
+	$stmt->bind_result($col1, $col2, $col3, $col4, $col5); // then cascade down
 
 	$reached = array();
 
@@ -176,24 +164,12 @@ if ($_GET['guid']) {
 	    print '<td style="text-align:center">'.$col4.'</td>';
 	    print '<td style="text-align:center">'. (($col5) ? ($col5) : ('No Parent')).'</td>';
 	    print '</tr>';
-	    //my_reach($col2);
     }
     $reached[] = $col1;							// <--- are stored here
 	}
-	
-	
-	//my_reach($col2);
-	
-	foreach ($reached as $r) {
-    //my_reach($r);
-    //print '<p>'.$r.'</p><br>';
-  }
     	
 	foreach ($reached as $r) {
-    if (!in_array($r, $hasreached)) {
-    	my_reach($r, $hasreached);
-      print '<p>'.$r.'</p><br>';
-    }
+    	my_reach($r, $startguid);
   }
     	
     	
