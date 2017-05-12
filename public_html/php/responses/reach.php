@@ -4,23 +4,25 @@ include '../../connect.php';
 
 $hasreached = array();
 
-function my_reach($r_name, $hasreached) {
+function my_reach($r_guid, $hasreached) {
 
   $db = db_connect();
     
-  if ($r_name && !is_null($r_name)) {
-	  $name = $r_name;
+  if ($r_guid && !is_null($r_guid)) {
+	  $guid = $r_guid;
 
-    array_push($hasreached, $name);
+    array_push($hasreached, $guid);
 
 	// echo '<p>'. $name .'</p?';
 	
-  	$stmt = $db->prepare('SELECT * FROM (SELECT d.* FROM `DAGR` d, ( SELECT `GUID`, `Parent_id` FROM `DAGR` WHERE `Name` LIKE ? ) tv
-      WHERE d.`Parent_id` = tv.`GUID` or d.`GUID` = tv.`Parent_id` GROUP BY `GUID`) AS `d1`
-      WHERE `d1`.`GUID` NOT IN ( SELECT `GUID` FROM `DAGR` WHERE `Name` LIKE ? ) ORDER BY `Name`');
+  	//$stmt = $db->prepare('SELECT * FROM (SELECT d.* FROM `DAGR` d, ( SELECT `GUID`, `Parent_id` FROM `DAGR` WHERE `GUID` = ? ) tv
+    //  WHERE d.`Parent_id` = tv.`GUID` or d.`GUID` = tv.`Parent_id` GROUP BY `GUID`) AS `d1`
+    //  WHERE `d1`.`GUID` NOT IN ( SELECT `GUID` FROM `DAGR` WHERE `GUID` = ? ) ORDER BY `Name`');
+    $stmt = $db->prepare('SELECT * FROM `DAGR` WHERE `Parent_id` = ?');
 
 	  if ($stmt) {
-		  @$stmt->bind_param('ss', $name, $name)
+		  //@$stmt->bind_param('ss', $guid, $guid)
+      @$stmt->bind_param('s', $guid)
 		  OR die('Error, could not reach any DAGRs at this time.<br>');
 	  } else {
 		  print '<p>Done!<p><br>';
@@ -34,11 +36,11 @@ function my_reach($r_name, $hasreached) {
 
 	  //fetch records
 	  while($stmt->fetch()) {
-      if (!in_array($col2, $hasreached)) {
+      if (!in_array($col1, $hasreached)) {
   	    print '<tr>';
 	      print '<td style="text-align:center">'.$col1.'</td>';		// Additional Reachable DAGRs. . . 
+        $reached[] = $col1;						// <--- are stored here	    
 	      print '<td style="text-align:center">'.$col2.'</td>';
-	      $reached[] = $col2;						// <--- are stored here	    
 	      print '<td style="text-align:center">'.$col3.'</td>';
 	      print '<td style="text-align:center">'.$col4.'</td>';
 	      print '<td style="text-align:center">'. (($col5) ? ($col5) : ('No Parent')).'</td>';
@@ -60,25 +62,66 @@ function my_reach($r_name, $hasreached) {
   } 
 }
 
+function getparent($r_guid) {
+  $db = db_connect();
+    
+  if ($r_guid && !is_null($r_guid)) {
+	  $guid = $r_guid;
+
+    $stmt = $db->prepare('SELECT * FROM `DAGR` WHERE `GUID` = ?');
+	  if ($stmt) {
+		  @$stmt->bind_param('s', $guid)
+		  OR die('Error, could not reach any DAGRs at this time.<br>');
+	  } else {
+		  print '<p>Done!<p><br>';
+		  exit(0);
+	  }
+    $repeat = 1;
+
+    while($repeat == 1) {
+	    $stmt->execute();
+	    $stmt->bind_result($col1, $col2, $col3, $col4, $col5);
+    
+      while($stmt->fetch()) {
+        if ($col5) {
+          $guid = $col5;
+        } else {
+          $repeat = 0;
+        }
+      }
+    }
+
+	  $stmt->close();
+
+    echo "True king is " . $guid . "<br><br>";
+
+    return $guid;
+
+  }
+}
+
 
 $db = db_connect();
     
-if ($_GET['name']) {
+if ($_GET['guid']) {
 	// $name = $_GET['name'];
-	$name = $_GET['name'];
+	$guid = $_GET['guid'];
+  $startguid = $guid;
     	//$name = (!is_null($r_name) ? $r_name : $_GET['name']);
 
-  array_push($hasreached, $name);
+  array_push($hasreached, $guid);
     
-	$st = $db->prepare('SELECT * FROM `DAGR` WHERE `Name` LIKE ? ORDER BY `Name`');
-  $stmt = $db->prepare('SELECT * FROM (SELECT d.* FROM `DAGR` d, ( SELECT `GUID`, `Parent_id` FROM `DAGR` WHERE `Name` LIKE ? ) tv
-      WHERE d.`Parent_id` = tv.`GUID` or d.`GUID` = tv.`Parent_id` GROUP BY `GUID`) AS `d1`
-      WHERE `d1`.`GUID` NOT IN ( SELECT `GUID` FROM `DAGR` WHERE `Name` LIKE ? ) ORDER BY `Name`');
+	$st = $db->prepare('SELECT * FROM `DAGR` WHERE `GUID` = ?');
+  //$stmt = $db->prepare('SELECT * FROM (SELECT d.* FROM `DAGR` d, ( SELECT `GUID`, `Parent_id` FROM `DAGR` WHERE `GUID` = ? ) tv
+  //    WHERE d.`Parent_id` = tv.`GUID` or d.`GUID` = tv.`Parent_id` GROUP BY `GUID`) AS `d1`
+  //    WHERE `d1`.`GUID` NOT IN ( SELECT `GUID` FROM `DAGR` WHERE `GUID` = ? ) ORDER BY `Name`');
+  $stmt = $db->prepare('SELECT * FROM `DAGR` WHERE `Parent_id` = ?');
 
-	@$st->bind_param('s', $name)
+	@$st->bind_param('s', $guid)
 	OR die('Error, could not find that DAGR at this time.<br>');
 	
-	@$stmt->bind_param('ss', $name, $name)
+	//@$stmt->bind_param('ss', $guid, $guid)
+  @$stmt->bind_param('s', $guid)
 	OR die('Error, could not reach any DAGRs at this time.<br>');
 	
 	$st->execute();
@@ -105,6 +148,8 @@ if ($_GET['name']) {
 	    print '</tr>';
 	}
 	print '</table><br>';
+
+  $guid = getparent($guid);
 	
 	$stmt->execute();
 	$stmt->bind_result($col1, $col2, $col3, $col4, $col5);
@@ -123,15 +168,17 @@ if ($_GET['name']) {
 
 	//fetch records
 	while($stmt->fetch()) {
+    if ($col1 != $startguid) {
   	  print '<tr>';
-	    print '<td style="text-align:center">'.$col1.'</td>';		// Additional Reachable DAGRs. . . 
+	    print '<td style="text-align:center">'.$col1.'</td>';		// Additional Reachable DAGRs. . . 	    
 	    print '<td style="text-align:center">'.$col2.'</td>';
-	    $reached[] = $col2;							// <--- are stored here	    
 	    print '<td style="text-align:center">'.$col3.'</td>';
 	    print '<td style="text-align:center">'.$col4.'</td>';
 	    print '<td style="text-align:center">'. (($col5) ? ($col5) : ('No Parent')).'</td>';
 	    print '</tr>';
 	    //my_reach($col2);
+    }
+    $reached[] = $col1;							// <--- are stored here
 	}
 	
 	
@@ -155,7 +202,7 @@ if ($_GET['name']) {
      
 } else {
   echo '<script language="javascript">';
-	echo 'alert("Please enter a name")';
+	echo 'alert("Please select a DAGR")';
 	echo '</script>';
 }
 
