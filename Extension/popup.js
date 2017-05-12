@@ -10,23 +10,55 @@ function escapeHTML(text) {
   return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
+/*
+document.addEventListener('', function() {
+$('#file-add-button').on('click', function(e) {
+  // TODO do a check to see if any input values are missing
+  e.preventDefault();
+    $.ajax({
+        url : 'http://www.bagelcron.com/php/responses/parsehtml.php',
+        type: "POST",
+        data: $('#file-add-form').serialize(),
+        success: function (result) {
+            $("#results").html(result);
+        },
+        error: function (jXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+  $("#results").html('<p>Adding file...</p>');
+});
+
+}, false);
+
+*/
+
 document.addEventListener('DOMContentLoaded', function() {
   var addFileButton = document.getElementById('addFile');
-  var homepageButton = document.getElementById('homepage'); 
-  // var xhr = new XMLHttpRequest();
+  var homepageButton = document.getElementById('homepage');
 
   // I am following this tutorial: https://www.sitepoint.com/create-chrome-extension-10-minutes-flat/
 
   if (addFileButton) {
-  		// createFile();
-  		
-  		addFileButton.addEventListener('click', function() {
+  	addFileButton.addEventListener('click', function() {
     	chrome.tabs.getSelected(null, function(tab) {
-	    		//createFile();
-	    		//if (document.getElementById('addDAGR').checked) {
-    			//	createDAGR();
-    			//} else {    		 
-	    		// <form method="post" action="<?php echo htmlspecialchars('php/responses/parsehtml.php');?>" enctype="multipart/form-data" id="file-add-form">
+    		//if (document.getElementById('addDAGR').checked) {
+    		//	createDAGR();
+    		//} else {
+    						//createFile();
+    		/****************************************
+    		 *										*
+    		 *				FORM					*
+    		 *			   (FILE)					*
+    		 ****************************************/
+    		 
+    		 // Website --> send to parsehtml.php
+    		 // > name (optional)
+    		 // > creator
+    		 // > select parent
+    		 // > get the current url
+    		 
+    		// <form method="post" action="<?php echo htmlspecialchars('php/responses/add.php');?>" enctype="multipart/form-data" id="file-add-form">
 			var form = document.createElement('form');
 			form.method 	= 'post';
 			form.action 	= escapeHTML('http://www.bagelcron.com/php/responses/parsehtml.php');
@@ -83,48 +115,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			form.appendChild(sub);
 			
 			document.body.appendChild(form);
-			//form.submit();
-			
-			/*
-			xhr.open("POST", "http://www.bagelcron.com/php/responses/parsehtml.php", true);
-  
- 			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  			xhr.setRequestHeader("Content-length", ($('#file-add-form').serialize().length));
-  			xhr.setRequestHeader("Connection", "close");
-  			
-  			xhr.onload = function() {
-  				if (request.status === 200) {
-          			alert("It worked");
-          			console.log("Words");
-     			} else {
-     				alert("could not connect");
-     				console.log("could not connect");
-     			}
-  			}
-  			*/
-			
-			/*
-			 xhr.send(JSON.stringify(document.getElementById('file-add-form')));
- 			 xhr.onreadystatechange = function() { 
-   			 	if(xhr.readyState == 4 && xhr.status == 200) { 
-           		 	//debugger;
-         	   		// alert("Logged in");
-         	   		form.submit();
-            		//flag = 1;
-           			 //_callBack(xhr, xhr.readyState);
-    		 	}
-    		 }*/
-
-			/*
-    		xhr.send($('#file-add-form').serialize());
-    		
-    		xhr.onreadystatechange = function() { 
-   			 	if(xhr.readyState == 4 && xhr.status == 200) { 
-           		 	//debugger;
-         	   		alert("Logged in");
-         	   	}
-         	}*/
-    	})
+			//}    		
+        });
+    /*
+      // make a call that adds current DAGR to the database.
+      // I think we need to make a call to the webserver, THEN the webserver connects to the database
+      // I believe the extension itself cannot connect to the database. we need the mediator.actio
+      // read this: http://stackoverflow.com/questions/20048483/insert-into-mysql-from-chrome-extension
+    	*/
   	}, false);
   }
 
@@ -137,9 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 }, false);
 
-
-/*
-function createDAGR() {
+function createDAGR(dagr_name, creator) {
 	// if user requests a name, use this name, otherwise use the GUID as the name
 	// use a current timestamp function to create the time
 	// once form is completed, send it
@@ -165,6 +161,32 @@ function createDAGR() {
 			document.body.appendChild(form);
 			
 			
+  			/* DAGR Parent: <select name="parent"> */
+			var parent   = document.createElement('input');
+			parent.type  = 'hidden';
+			parent.name  = 'parent';
+			parent.value = 'none';
+			form.appendChild(parent);
+			/**/
+			
+			// <input type="hidden" name="object" value="dagr" />
+			var obj = document.createElement('input');
+			obj.type 	= 'hidden';
+			obj.name 	= 'object';
+			obj.value 	= 'dagr';
+			form.appendChild(obj);
+			
+			// <input type="submit" name="submit" value="Submit" id='dagr-add-button'/>
+			var sub = document.createElement('input');
+			sub.type 	= 'submit';
+			sub.name 	= 'submit';
+			sub.value 	= 'Submit';
+			sub.id		= 'dagr-add-button';
+			form.appendChild(sub);
+
+			document.body.appendChild(form);
+			
+			
 };
 
 	var fcreator = document.createElement('dagrCreator');
@@ -174,11 +196,6 @@ function createDAGR() {
 	form.appendChild(fcreator);
 */
 
-    		/****************************************
-    		 *										*
-    		 *				FORM					*
-    		 *			   (FILE)					*
-    		 ****************************************/
 function createFile() {
 	// same concept as the above function, but with more values. make sure input includes all database values
 	// parent id should be from a new DAGR or a specified DAGR
@@ -245,70 +262,3 @@ function createFile() {
 
 			document.body.appendChild(form);
 };
-
-/*
-function ClickSuggestionsLink(data){
-    var request = new XMLHttpRequest();
-    var data = document.getElementById('file-add-form').serialize();
-
-    request.open("POST", 'http://www.bagelcron.com/php/responses/parsehtml.php', true);
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.setRequestHeader("Content-length", data.length);
-    request.setRequestHeader("Connection", "close");
-
-    request.onload = function() {
-      if (request.status === 200) {
-          // code if everything went fine
-          // request.responseText for printing echoes
-          alert("WE HERE!");
-      } else {
-          // code if otherwise
-      }
-    };
-
-    // sending data here
-    request.send(data);
-}
-*/
-
-function req() {
-$('#file-add-button').on('click', function(e) {
-  // TODO do a check to see if any input values are missing
-  e.preventDefault();
-    $.ajax({
-        url : 'http://www.bagelcron.com/php/responses/parsehtml.php',
-        type: "POST",
-        data: $('#file-add-form').serialize(),
-        success: function (result) {
-            $("#results").html(result);
-        },
-        error: function (jXHR, textStatus, errorThrown) {
-            alert(errorThrown);
-        }
-    });
-  $("#results").html('<p>Adding file...</p>');
-});
-}
-
-/*
-document.addEventListener('', function() {
-$('#file-add-button').on('click', function(e) {
-  // TODO do a check to see if any input values are missing
-  e.preventDefault();
-    $.ajax({
-        url : 'http://www.bagelcron.com/php/responses/parsehtml.php',
-        type: "POST",
-        data: $('#file-add-form').serialize(),
-        success: function (result) {
-            $("#results").html(result);
-        },
-        error: function (jXHR, textStatus, errorThrown) {
-            alert(errorThrown);
-        }
-    });
-  $("#results").html('<p>Adding file...</p>');
-});
-
-}, false);
-
-*/
